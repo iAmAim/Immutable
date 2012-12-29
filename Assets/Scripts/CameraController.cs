@@ -4,9 +4,11 @@ using System.Collections;
 public class CameraController : MonoBehaviour {
 
     public Transform[] cameraPerspective;
-    int cameraIndex;
+    public int cameraIndex;
     CameraSettings camerasettings;
     float cameraRotationX = 0f;
+
+ 
 
 
 	// Use this for initialization
@@ -21,6 +23,7 @@ public class CameraController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             cameraIndex++;
+             Debug.Log("Camera switched");
             if (cameraIndex >= cameraPerspective.Length)
             {
                 cameraIndex = 0;           
@@ -57,4 +60,9 @@ public class CameraController : MonoBehaviour {
         }
        
 	}
+
+    public int getCameraIndex()
+    {
+        return cameraIndex;
+    }
 }

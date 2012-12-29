@@ -38,9 +38,10 @@ public class FireBullet : MonoBehaviour {
         // check if time is greater than nextfire
         if(Input.GetButton("Fire Weapon") && Time.time > nextFire)
         {
-            
+         
+
             nextFire = Time.time + fireRate;
-            launchPosition = cameraHeadTransform.TransformPoint(0,0,5);
+            launchPosition = cameraHeadTransform.TransformPoint(0, 0, 5); 
              
             //create bullet projectile at launchPosition and tilt the angle  
             // so that it is horizontal using the angle  eulerAngles.x + 90
