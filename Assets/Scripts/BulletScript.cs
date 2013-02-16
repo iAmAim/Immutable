@@ -16,18 +16,18 @@ public class BulletScript : MonoBehaviour {
     private float projectileSpeed = 30;
 
     //prevent projectile from causing further harm once it hits something
-    private bool expended = false;
+    private bool alreadyhitsomething = false;
 
     /* Ray projected in front of the projectile
     to see if it will recognize a collider */
     private RaycastHit hit;
 
     // The range of the ray
-    private float range = 1.5f;
+    private float range = 1f;  //.2f  
 
-    // lifespan of the projectile
+    // lifespan of the projectile in seconds
 
-    private float bulletLife = 5;
+    private float bulletLife = 4;
 
     //----------------- Variables end ----------------------------------//
 
@@ -44,24 +44,41 @@ public class BulletScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //Translate the projectile in the up diretction cause bullet travels on  Y axis
+        //Translate the projectile in the up direction cause bullet travels on  Y axis
         myTransform.Translate(Vector3.up * projectileSpeed * Time.deltaTime);
 
         // if the ray hits something then execute this code.
 
         if (Physics.Raycast(myTransform.position, myTransform.up, out hit, range) &&
-            expended == false)
+            alreadyhitsomething == false)
         {
             //if collider has tag 'Ground'
             if (hit.transform.tag == "Ground")
             {
-                expended = true;
+                alreadyhitsomething = true;
                 //make projectile disappear
                 myTransform.renderer.enabled = false;
 
                 //turn off light component as well ( halo will also disappear)
                 myTransform.light.enabled = false;
             }
+            if (hit.transform.tag == "enemy")
+            {
+               /* // Dynamically create a fixedjoint to stick bullets to the enemy 
+                var joint = myTransform.gameObject.AddComponent<FixedJoint>();
+                joint.connectedBody = hit.transform.rigidbody;
+                projectileSpeed = 0;  
+                */
+                alreadyhitsomething = true;
+                projectileSpeed = 0; 
+               //hit.transform.SendMessage ("IsHit"); // send message to the enemy being hit
+                Debug.Log("ecoli is hit");
+                  
+                myTransform.parent = hit.transform;           
+              
+            }
+              
+         
         }
 	}
 
@@ -72,4 +89,21 @@ public class BulletScript : MonoBehaviour {
         yield return new WaitForSeconds(bulletLife);
         Destroy(myTransform.gameObject);
     }
+
+    
+
+  /* void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.tag == "enemy")
+        {
+            Debug.Log("Bullet hits enemy!!!!");
+           // c.transform.parent = myTransform;
+            var joint = c.gameObject.AddComponent<FixedJoint>();  
+
+            joint.connectedBody = c.rigidbody;
+        }
+              
+       
+    } */
+
 }

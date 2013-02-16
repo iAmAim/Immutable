@@ -12,7 +12,7 @@ public class FireBullet : MonoBehaviour {
 
     // Quick reference
     private Transform myTransform;
-    private Transform cameraHeadTransform;
+    private Transform cameraTransform;
 
     //the position at which the projectile will be instantiated
     private Vector3 launchPosition = new Vector3();
@@ -24,13 +24,22 @@ public class FireBullet : MonoBehaviour {
 
     //----------------- Variables end ----------------------------------//
 
+    void Awake()
+    {
+        myTransform = transform;  
+        cameraTransform = Camera.main.transform; //cameraObj.transform;
+    }
+
 	// Use this for initialization
-	void Start () {
+	/*void Start () {
 
         myTransform = transform;
-        cameraHeadTransform = myTransform.FindChild("Main Camera");
-      
-	}
+        ///cameraHeadTransform = myTransform.FindChild("Main Camera");   
+        //GameObject cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
+        cameraHeadTransform = Camera.main.transform; //cameraObj.transform;
+       
+        //myTransform.Find();
+	}*/
 	
 	// Update is called once per frame
 	void Update () {
@@ -41,12 +50,12 @@ public class FireBullet : MonoBehaviour {
          
 
             nextFire = Time.time + fireRate;
-            launchPosition = cameraHeadTransform.TransformPoint(0, 0, 5); 
+            launchPosition = cameraTransform.TransformPoint(0, 0, 5); 
              
             //create bullet projectile at launchPosition and tilt the angle  
             // so that it is horizontal using the angle  eulerAngles.x + 90
 
-            Instantiate(bullet,launchPosition,Quaternion.Euler(cameraHeadTransform.eulerAngles.x + 90,
+            Instantiate(bullet,launchPosition,Quaternion.Euler(cameraTransform.eulerAngles.x + 90,
                                                                 myTransform.eulerAngles.y, 0));
         }
 	

@@ -15,6 +15,7 @@ public class Crosshair : MonoBehaviour
     public float rayRange = 50;
     RaycastHit hit;
     bool hitSomething;
+    Vector3 direction; //direction where bullet is heading
    
     void Start()
 
@@ -22,6 +23,8 @@ public class Crosshair : MonoBehaviour
         position = new Rect((Screen.width - crosshairTexture.width) / 2 , (Screen.height -
           crosshairTexture.height) / 2, crosshairTexture.width, crosshairTexture.height);
         Screen.lockCursor = true;
+
+        direction = rayOrigin.forward;
 
     }
     
@@ -34,9 +37,10 @@ public class Crosshair : MonoBehaviour
         // This would cast rays only against colliders in bulletLayer.
         //But instead we want to collide against everything except bulletLayer. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;
-        Vector3 direction;
-        direction = rayOrigin.forward;
+        
+        
         hitSomething = Physics.Raycast(rayOrigin.position, direction, out hit, rayRange,layerMask);
+        Debug.DrawRay(rayOrigin.position, direction, Color.red);
        
         
             if (hitSomething)

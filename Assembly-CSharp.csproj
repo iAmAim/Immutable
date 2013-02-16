@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_3_5_0;UNITY_3_5;UNITY_EDITOR;ENABLE_PROFILER;UNITY_STANDALONE_WIN;ENABLE_GENERICS;ENABLE_DUCK_TYPING;ENABLE_TERRAIN;ENABLE_MOVIES;ENABLE_WEBCAM;ENABLE_MICROPHONE;ENABLE_NETWORK;ENABLE_CLOTH;ENABLE_WWW;ENABLE_SUBSTANCE</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_CLOTH;ENABLE_MOVIES;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;ENABLE_DUCK_TYPING;UNITY_4_0_0;UNITY_4_0;UNITY_STANDALONE_WIN;ENABLE_PROFILER;UNITY_EDITOR</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -37,20 +37,26 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>D:/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>D:/Unity4/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>D:/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>D:/Unity4/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AIEnemy\MoveTowardsTargetTestAI.cs" />
+     <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\AIBridges.cs" />
+     <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\AISector.cs" />
+     <Compile Include="Assets\Scripts\AIEnemy\Wander.cs" />
      <Compile Include="Assets\Scripts\BulletScript.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CameraSettings.cs" />
      <Compile Include="Assets\Scripts\Crosshair.cs" />
      <Compile Include="Assets\Scripts\FireBullet.cs" />
-     <Compile Include="Assets\Scripts\Unit.cs" />
-     <Compile Include="Assets\Scripts\UnitPlayer.cs" />
+     <Compile Include="Assets\Scripts\Player\Unit.cs" />
+     <Compile Include="Assets\Scripts\Player\UnitPlayer.cs" />
+     <Compile Include="Assets\Scripts\StickyObject.cs" />
+     <Compile Include="Assets\Scripts\rotateBulletModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

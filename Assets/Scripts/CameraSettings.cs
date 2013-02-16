@@ -3,8 +3,10 @@ using System.Collections;
 
 public class CameraSettings : MonoBehaviour {
 
-    public float cameraPitchMax = 45f; //cameraPitch max 45 deg
-    public float smoothing = 0f;
+    
+    public float smoothing = 100f; 
+    public float minCameraPitch = 10f; //camera pitch min 20 deg
+    public float cameraPitchMax = 30f; //camera pitch max 45 deg 
 
 	// Use this for initialization
 	void Start () {

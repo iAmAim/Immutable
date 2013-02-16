@@ -8,8 +8,6 @@ public class CameraController : MonoBehaviour {
     CameraSettings camerasettings;
     float cameraRotationX = 0f;
 
- 
-
 
 	// Use this for initialization
 	void Start () {
@@ -20,16 +18,7 @@ public class CameraController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            cameraIndex++;
-             Debug.Log("Camera switched");
-            if (cameraIndex >= cameraPerspective.Length)
-            {
-                cameraIndex = 0;           
-            }
-            camerasettings = cameraPerspective[cameraIndex].GetComponent<CameraSettings>();
-        }
+        getCameraPerspective(); // moves to 3rd person or first person view
 
         if (cameraPerspective[cameraIndex])
         {  
@@ -49,12 +38,12 @@ public class CameraController : MonoBehaviour {
             //this stores rotation independently, tracks rotation frame to frame                                                                                    
             cameraRotationX -= Input.GetAxis("Mouse Y");
 
-            //clamp, set cameraPitch min -45 max 45 degs
-            cameraRotationX = Mathf.Clamp(cameraRotationX, -camerasettings.cameraPitchMax, camerasettings.cameraPitchMax);
+            //clamp, set camera pitch min and max values
+            cameraRotationX = Mathf.Clamp(cameraRotationX, -camerasettings.minCameraPitch, camerasettings.cameraPitchMax);
 
 
             //Apply rotation to Camera
-            Camera.main.transform.Rotate(cameraRotationX, 0f, 0f);
+           Camera.main.transform.Rotate(cameraRotationX, 0f, 0f);
 
            
         }
@@ -64,5 +53,19 @@ public class CameraController : MonoBehaviour {
     public int getCameraIndex()
     {
         return cameraIndex;
+    }
+
+    public void getCameraPerspective()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            cameraIndex++;
+            Debug.Log("Camera switched");
+            if (cameraIndex >= cameraPerspective.Length)
+            {
+                cameraIndex = 0;
+            }
+            camerasettings = cameraPerspective[cameraIndex].GetComponent<CameraSettings>();
+        }
     }
 }
