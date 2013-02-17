@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour {
     public Transform[] cameraPerspective;
     public int cameraIndex;
     CameraSettings camerasettings;
-    float cameraRotationX = 0f;
+    public float cameraRotationX = 0f;
 
 
 	// Use this for initialization
@@ -45,6 +45,9 @@ public class CameraController : MonoBehaviour {
             //Apply rotation to Camera
            Camera.main.transform.Rotate(cameraRotationX, 0f, 0f);
 
+            //Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
+           // Debug.DrawRay(Camera.main.transform.position, forward, Color.green);
+           //returnCameraRotationX();
            
         }
        
@@ -67,5 +70,12 @@ public class CameraController : MonoBehaviour {
             }
             camerasettings = cameraPerspective[cameraIndex].GetComponent<CameraSettings>();
         }
+    }
+
+   
+
+    public float returnCameraRotationX()
+    {
+        return cameraRotationX;
     }
 }

@@ -3,6 +3,8 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Transform))]
+
 public class Crosshair : MonoBehaviour
 {
     public Texture2D crosshairTexture;
@@ -12,10 +14,12 @@ public class Crosshair : MonoBehaviour
     
     //raycasting
     public Transform rayOrigin;
-    public float rayRange = 50;
+    public Transform rayTarget;
+    public float rayRange = 2;
     RaycastHit hit;
     bool hitSomething;
-    Vector3 direction; //direction where bullet is heading
+    Vector3 rayDirection; //direction where bullet is heading
+
    
     void Start()
 
@@ -23,9 +27,9 @@ public class Crosshair : MonoBehaviour
         position = new Rect((Screen.width - crosshairTexture.width) / 2 , (Screen.height -
           crosshairTexture.height) / 2, crosshairTexture.width, crosshairTexture.height);
         Screen.lockCursor = true;
-
-        direction = rayOrigin.forward;
-
+        GameObject rayTarget = GameObject.FindGameObjectWithTag("rayTarget");
+        
+        
     }
     
     void Update()
@@ -37,27 +41,37 @@ public class Crosshair : MonoBehaviour
         // This would cast rays only against colliders in bulletLayer.
         //But instead we want to collide against everything except bulletLayer. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;
+
+        //rayDirection = camera.transform.forward;
+        rayDirection = rayOrigin.forward;
+       
+        hitSomething = Physics.Raycast(rayOrigin.position, rayDirection, out hit, rayRange, layerMask);
         
-        
-        hitSomething = Physics.Raycast(rayOrigin.position, direction, out hit, rayRange,layerMask);
-        Debug.DrawRay(rayOrigin.position, direction, Color.red);
        
         
             if (hitSomething)
             {
+
+
+                rayTarget.transform.position = hit.point;
+                Debug.DrawLine(rayOrigin.position, hit.point, Color.green);
+
                 if (hit.collider.gameObject.tag == "enemy")
                 {
                     Debug.Log("enemy is spotted");
                     crossColor = Color.red;
+                   // Debug.DrawLine(rayOrigin.position,hit.point);
                 }
 
                 else if (hit.collider.gameObject.tag == "friendly")
                 {
                     Debug.Log("friend is spotted");
                     crossColor = Color.green;
+                    
                 }
                 else
                 {
+                    
                     crossColor = Color.white;
                 }
 

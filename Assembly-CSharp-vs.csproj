@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\Player\Unit.cs" />
      <Compile Include="Assets\Scripts\Player\UnitPlayer.cs" />
      <Compile Include="Assets\Scripts\StickyObject.cs" />
+     <Compile Include="Assets\Scripts\bulletOriginRayCast.cs" />
      <Compile Include="Assets\Scripts\rotateBulletModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

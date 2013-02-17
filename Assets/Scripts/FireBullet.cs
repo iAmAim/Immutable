@@ -21,13 +21,17 @@ public class FireBullet : MonoBehaviour {
     private float fireRate = 0.2f;
     private float nextFire = 0;
 
+    // Added Friday.test only
+    private Transform bulletTarget;
 
     //----------------- Variables end ----------------------------------//
 
     void Awake()
     {
         myTransform = transform;  
-        cameraTransform = Camera.main.transform; //cameraObj.transform;
+      //  cameraTransform = Camera.main.transform; //cameraObj.transform;
+
+        
     }
 
 	// Use this for initialization
@@ -40,24 +44,47 @@ public class FireBullet : MonoBehaviour {
        
         //myTransform.Find();
 	}*/
+
+    void Start()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("rayTarget");
+
+        bulletTarget = playerObj.transform;
+       // cameraXrotation = camera.returnCameraRotationX(); 
+    
+    } 
+
 	
 	// Update is called once per frame
 	void Update () {
 
+        Debug.DrawLine(myTransform.position, bulletTarget.position, Color.blue);
+        
+       myTransform.LookAt(bulletTarget); 
+         
         // check if time is greater than nextfire
         if(Input.GetButton("Fire Weapon") && Time.time > nextFire)
         {
          
-
+             
             nextFire = Time.time + fireRate;
-            launchPosition = cameraTransform.TransformPoint(0, 0, 5); 
+            launchPosition = myTransform.TransformPoint(0, 0, 0); 
              
             //create bullet projectile at launchPosition and tilt the angle  
             // so that it is horizontal using the angle  eulerAngles.x + 90
 
-            Instantiate(bullet,launchPosition,Quaternion.Euler(cameraTransform.eulerAngles.x + 90,
-                                                                myTransform.eulerAngles.y, 0));
+         // Instantiate(bullet, launchPosition, Quaternion.Euler(myTransform.eulerAngles.x +90, myTransform.eulerAngles.y, 0));  
+
+            
+            
+           // Instantiate(bullet, launchPosition, Quaternion.Euler(myTransform.eulerAngles.x + 90 + cameraXrotation + addAngle, bulletTarget.eulerAngles.y, 0));
+
+            Instantiate(bullet, launchPosition, Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
+
+          
         }
+
+
 	
 	}
 }

@@ -72,7 +72,7 @@ public class BulletScript : MonoBehaviour {
                 alreadyhitsomething = true;
                 projectileSpeed = 0; 
                //hit.transform.SendMessage ("IsHit"); // send message to the enemy being hit
-                Debug.Log("ecoli is hit");
+                Debug.Log("enemy(bacteria) is hit");
                   
                 myTransform.parent = hit.transform;           
               
