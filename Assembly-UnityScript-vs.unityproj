@@ -52,6 +52,9 @@
      <Compile Include="Assets\ThirdpersonExample\ProjectileScript.js" />
      <Compile Include="Assets\ThirdpersonExample\ShootScript.js" />
      <Compile Include="Assets\ThirdpersonExample\SimpleFPSWalker.js" />
+ <Reference Include="Assembly-UnityScript-firstpass">
+ <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

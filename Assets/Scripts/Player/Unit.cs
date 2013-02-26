@@ -7,9 +7,9 @@ public class Unit : MonoBehaviour
 {
 	protected CharacterController control;
     protected Vector3 move = Vector3.zero;
-    public float walkSpeed = 3f;
-    public float runSpeed = 6f;
-    public float turnSpeed = 180f;
+    public float walkSpeed = 2.5f; 
+    public float runSpeed = 4f;
+    public float turnSpeed = 90f;
     public float jumpSpeed = 5f;
 
     public bool jumping;
@@ -26,7 +26,7 @@ public class Unit : MonoBehaviour
         //check if CharacterController is available
 		if(!control)
 		{
-			Debug.LogError("Unit.Start() " + name + "has no charactercontroller");
+			Debug.LogError("Unit.Start() " + name + "has no charactercontroller attached");
 			enabled = false; //disable the script
 		}
 		

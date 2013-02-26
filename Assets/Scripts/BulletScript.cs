@@ -23,7 +23,7 @@ public class BulletScript : MonoBehaviour {
     private RaycastHit hit;
 
     // The range of the ray
-    private float range = 1f;  //.2f  
+    private float range = 0.5f;  //.2f  
 
     // lifespan of the projectile in seconds
 
@@ -33,7 +33,7 @@ public class BulletScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //assign to myTransform of whatever the script is attached to (attached to Bullet)
+        //assign to myTransform of whatever the script is attached to (attached to Bullet) This saves Transform component for caching 
         myTransform = transform;
 
         // As soon as projectile is created, start countdown then destroy game object.
@@ -52,7 +52,7 @@ public class BulletScript : MonoBehaviour {
         if (Physics.Raycast(myTransform.position, myTransform.up, out hit, range) &&
             alreadyhitsomething == false)
         {
-            //if collider has tag 'Ground'
+            /*if collider has tag 'Ground'
             if (hit.transform.tag == "Ground")
             {
                 alreadyhitsomething = true;
@@ -61,21 +61,39 @@ public class BulletScript : MonoBehaviour {
 
                 //turn off light component as well ( halo will also disappear)
                 myTransform.light.enabled = false;
-            }
-            if (hit.transform.tag == "enemy")
+
+                //TODO: Add particle effects here
+            }*/
+            
+
+            if (hit.transform.tag == "enemy1")
             {
-               /* // Dynamically create a fixedjoint to stick bullets to the enemy 
-                var joint = myTransform.gameObject.AddComponent<FixedJoint>();
-                joint.connectedBody = hit.transform.rigidbody;
-                projectileSpeed = 0;  
-                */
+                /* // Dynamically create a fixedjoint to stick bullets to the enemy 
+                 var joint = myTransform.gameObject.AddComponent<FixedJoint>();
+                 joint.connectedBody = hit.transform.rigidbody;
+                 projectileSpeed = 0;    this fails.
+                 */
                 alreadyhitsomething = true;
-                projectileSpeed = 0; 
-               //hit.transform.SendMessage ("IsHit"); // send message to the enemy being hit
-                Debug.Log("enemy(bacteria) is hit");
-                  
-                myTransform.parent = hit.transform;           
-              
+                projectileSpeed = 0;
+               // myTransform.collider.enabled = false;
+                myTransform.collider.isTrigger = true;
+                   // myTransform.parent = hit.transform.gameObject.transform;
+               myTransform.parent = hit.transform;
+
+               AiBacteria aibacteria = hit.collider.gameObject.GetComponent<AiBacteria>();
+               if (aibacteria == null)
+                   Debug.Log("Cannot find aHealthScript");
+
+               else
+               {
+                   aibacteria.takeDamage(); // bacteria takes damage 
+                   Debug.Log("enemy(bacteria) is hit");
+               }
+                
+            }
+            else
+            {
+                Destroy(myTransform.gameObject);
             }
               
          
@@ -89,6 +107,8 @@ public class BulletScript : MonoBehaviour {
         yield return new WaitForSeconds(bulletLife);
         Destroy(myTransform.gameObject);
     }
+
+
 
     
 

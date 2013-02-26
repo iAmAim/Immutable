@@ -2,40 +2,57 @@ using UnityEngine;
 using System.Collections;
 
 /// <summary>
-/// Creates wandering behaviour for a CharacterController.
+/// Creates Ai behaviour(random walk)  for a CharacterController.
 /// </summary>
 [RequireComponent(typeof(CharacterController))]
-public class Wander : Unit
+public class AiBacteria : Unit
 {
+    public float health = 3f;
     private Transform myTransform;
-    public float changeDirectionInterval = 1; // number of seconds bacteria swims
-    public float maxHeadingChange = 30;
-    public float speed = 5;
-
-    CharacterController controller;
+    public float changeDirectionInterval = 1f; // number of seconds bacteria swims
+    public float maxHeadingChange = 360f; 
     float heading;
     Vector3 targetRotation;
+    
 
     void Awake()
     {
-        controller = GetComponent<CharacterController>();
+       
 
         myTransform = transform; 
         // Set random initial rotation
-        heading = Random.Range(0, 360);
-        transform.eulerAngles = new Vector3(0, heading, 0);
+        walkSpeed = 1f; 
 
-        StartCoroutine(NewHeading());
+      
     }
 
-    void Update()
+    public override void Start()
     {
-        ///float x = myTransform.position.x;
-      /// x = x + 2f;
-        transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, targetRotation, Time.deltaTime * changeDirectionInterval);
-        var forward = transform.TransformDirection(Vector3.forward);
-        controller.SimpleMove(forward * speed);
-       /// Debug.DrawLine(myTransform.position, x , Color.red); 
+        base.Start();
+        heading = Random.Range(0, 360);
+        transform.eulerAngles = new Vector3(0, heading, 0);
+        StartCoroutine(NewHeading());
+    }
+     
+    public override void Update() 
+    {
+     
+       transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, targetRotation, Time.deltaTime * changeDirectionInterval);
+       move = transform.TransformDirection(Vector3.forward);
+
+       Debug.DrawRay(myTransform.position, myTransform.forward , Color.red);
+       base.Update();
+    }
+
+    public void takeDamage()
+    {
+        health--;
+
+        if (health < 1)
+        {
+            Destroy(myTransform.gameObject);
+            GameScore.gamescore += 100;
+        }
     }
 
     /// <summary>

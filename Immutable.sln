@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{11EFD9AE-6F76-E706-E3F1-B34D97584EBC}") = "Immutable", "Assembly-CSharp.csproj", "{E3C47DDA-5DBE-4863-6616-4FADFA964324}"
 EndProject
+Project("{11EFD9AE-6F76-E706-E3F1-B34D97584EBC}") = "Immutable", "Assembly-UnityScript-firstpass.unityproj", "{EC365CD2-78FC-EFAE-E7D3-6A8CBAA97C1B}"
+EndProject
 Project("{11EFD9AE-6F76-E706-E3F1-B34D97584EBC}") = "Immutable", "Assembly-UnityScript.unityproj", "{D55499EE-F47E-A13C-6064-E0733FEBE89B}"
 EndProject
 Global
@@ -15,6 +17,10 @@ Global
 		{E3C47DDA-5DBE-4863-6616-4FADFA964324}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3C47DDA-5DBE-4863-6616-4FADFA964324}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3C47DDA-5DBE-4863-6616-4FADFA964324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC365CD2-78FC-EFAE-E7D3-6A8CBAA97C1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC365CD2-78FC-EFAE-E7D3-6A8CBAA97C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC365CD2-78FC-EFAE-E7D3-6A8CBAA97C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC365CD2-78FC-EFAE-E7D3-6A8CBAA97C1B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D55499EE-F47E-A13C-6064-E0733FEBE89B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D55499EE-F47E-A13C-6064-E0733FEBE89B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D55499EE-F47E-A13C-6064-E0733FEBE89B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,7 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																							GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

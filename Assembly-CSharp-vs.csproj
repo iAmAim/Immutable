@@ -44,10 +44,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scenes\GameScore.cs" />
+     <Compile Include="Assets\Scripts\AIEnemy\AiBacteria.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\MoveTowardsTargetTestAI.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\AIBridges.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\AISector.cs" />
-     <Compile Include="Assets\Scripts\AIEnemy\Wander.cs" />
      <Compile Include="Assets\Scripts\BulletScript.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CameraSettings.cs" />
@@ -58,6 +59,9 @@
      <Compile Include="Assets\Scripts\StickyObject.cs" />
      <Compile Include="Assets\Scripts\bulletOriginRayCast.cs" />
      <Compile Include="Assets\Scripts\rotateBulletModel.cs" />
+ <Reference Include="Assembly-UnityScript-firstpass">
+ <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -47,11 +47,11 @@ public class FireBullet : MonoBehaviour {
 
     void Start()
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("rayTarget");
+        GameObject playerTargetObj = GameObject.FindGameObjectWithTag("rayTarget");
 
-        bulletTarget = playerObj.transform;
+        bulletTarget = playerTargetObj.transform;
        // cameraXrotation = camera.returnCameraRotationX(); 
-    
+       
     } 
 
 	
@@ -59,14 +59,14 @@ public class FireBullet : MonoBehaviour {
 	void Update () {
 
         Debug.DrawLine(myTransform.position, bulletTarget.position, Color.blue);
-        
-       myTransform.LookAt(bulletTarget); 
+
+        myTransform.LookAt(bulletTarget); // looks at rayTarget object
          
         // check if time is greater than nextfire
         if(Input.GetButton("Fire Weapon") && Time.time > nextFire)
         {
-         
-             
+
+            
             nextFire = Time.time + fireRate;
             launchPosition = myTransform.TransformPoint(0, 0, 0); 
              

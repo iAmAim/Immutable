@@ -19,17 +19,22 @@ public class Crosshair : MonoBehaviour
     RaycastHit hit;
     bool hitSomething;
     Vector3 rayDirection; //direction where bullet is heading
-
    
+
+    void Awake()
+    {
+       // GameObject rayTargetObj = GameObject.FindGameObjectWithTag("rayTarget");
+       // rayTarget = rayTargetObj.transform;
+    }
     void Start()
 
     {
-        position = new Rect((Screen.width - crosshairTexture.width) / 2 , (Screen.height -
-          crosshairTexture.height) / 2, crosshairTexture.width, crosshairTexture.height);
+        position = new Rect((Screen.width - crosshairTexture.width) / 2, (Screen.height -
+           crosshairTexture.height) / 2, crosshairTexture.width, crosshairTexture.height);
         Screen.lockCursor = true;
-        GameObject rayTarget = GameObject.FindGameObjectWithTag("rayTarget");
-        
-        
+      
+        rayTarget.localPosition = new Vector3(0f, 0f, 120f); //move this to cameraSettings
+        rayOrigin.localPosition = new Vector3(0f, 0f, 5f); //move this to cameraSettings
     }
     
     void Update()
@@ -51,12 +56,15 @@ public class Crosshair : MonoBehaviour
         
             if (hitSomething)
             {
-
-
+             
+                /*Move rayTarget gameobject to the hit coordinates*/
                 rayTarget.transform.position = hit.point;
-                Debug.DrawLine(rayOrigin.position, hit.point, Color.green);
 
-                if (hit.collider.gameObject.tag == "enemy")
+
+                Debug.DrawLine(rayOrigin.position, hit.point, Color.green);
+                /*Debug statement */
+
+                if (hit.collider.gameObject.tag == "enemy1")
                 {
                     Debug.Log("enemy is spotted");
                     crossColor = Color.red;
@@ -71,18 +79,20 @@ public class Crosshair : MonoBehaviour
                 }
                 else
                 {
-                    
+                   
                     crossColor = Color.white;
                 }
 
             }
             else
             {
-                crossColor = Color.white;
+                rayTarget.localPosition = new Vector3(0f, 0f, 120f);
+                crossColor = Color.white;    
             }
         
        
     }
+
 
     void OnGUI()
     {
