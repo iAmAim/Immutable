@@ -18,7 +18,7 @@ public class MoveTowardsTargetTestAI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        GameObject playerObj = GameObject.FindGameObjectWithTag("character2");
 
         target = playerObj.transform;
 	}
@@ -27,7 +27,7 @@ public class MoveTowardsTargetTestAI : MonoBehaviour {
 	void Update () {
 
         // Debug statement 
-        Debug.DrawLine(target.position, myTransform.position, Color.red);
+        Debug.DrawLine(target.position + new Vector3(0,1,0), myTransform.position, Color.red);
 
         //Look at target (playerObj)
         myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), 

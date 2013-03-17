@@ -7,21 +7,30 @@ using System.Collections;
 [RequireComponent(typeof(CharacterController))]
 public class AiBacteria : Unit
 {
-    public float health = 3f;
+    public float health;
     private Transform myTransform;
-    public float changeDirectionInterval = 1f; // number of seconds bacteria swims
+    public float timeBeforeDirectionChange; // number of seconds bacteria swims
     public float maxHeadingChange = 360f; 
     float heading;
-    Vector3 targetRotation;
+    public Vector3 targetRotation;
+
+    public GameObject bacteria;
+    private Vector3 splitPosition;
+    public float splitTime;
+    private bool splitting;
+    public bool randomWalk;
     
 
-    void Awake()
+   public virtual void Awake()
     {
-       
-
         myTransform = transform; 
+        timeBeforeDirectionChange = 1f; 
         // Set random initial rotation
-        walkSpeed = 1f; 
+        walkSpeed = 1f;
+        splitTime = 100f;
+        health = 2;
+        splitting = true;
+        randomWalk = true;
 
       
     }
@@ -29,29 +38,38 @@ public class AiBacteria : Unit
     public override void Start()
     {
         base.Start();
-        heading = Random.Range(0, 360);
-        transform.eulerAngles = new Vector3(0, heading, 0);
-        StartCoroutine(NewHeading());
+       heading = Random.Range(0, 360);
+       myTransform.eulerAngles = new Vector3(0, heading, 0);
+        StartCoroutine(RandomWalk());
+        StartCoroutine(split());
+       
+
     }
-     
-    public override void Update() 
+
+    public override void Update()
     {
-     
-       transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, targetRotation, Time.deltaTime * changeDirectionInterval);
-       move = transform.TransformDirection(Vector3.forward);
+        base.Update();
+        myTransform.eulerAngles = Vector3.Slerp(myTransform.eulerAngles, targetRotation, Time.deltaTime * timeBeforeDirectionChange);
+       move = myTransform.TransformDirection(Vector3.forward);
+
+       //animate does not work
+      // myTransform.animation.CrossFade("walk", 1.5f);
 
        Debug.DrawRay(myTransform.position, myTransform.forward , Color.red);
-       base.Update();
+
+      
+       
     }
 
-    public void takeDamage()
+    public virtual void takeDamage()
     {
         health--;
+        //StopCoroutine("split");
 
         if (health < 1)
         {
             Destroy(myTransform.gameObject);
-            GameScore.gamescore += 100;
+            GameHud.gamescore += 500;
         }
     }
 
@@ -59,23 +77,37 @@ public class AiBacteria : Unit
     /// Repeatedly calculates a new direction to move towards.
     /// Use this instead of MonoBehaviour.InvokeRepeating so that the interval can be changed at runtime.
     /// </summary>
-    IEnumerator NewHeading()
+    public virtual IEnumerator RandomWalk()
     {
-        while (true)
+        while (randomWalk)
         {
             NewHeadingRoutine();
-            yield return new WaitForSeconds(changeDirectionInterval);
+            yield return new WaitForSeconds(timeBeforeDirectionChange);
         }
     }
 
     /// <summary>
     /// Calculates a new direction to move towards.
     /// </summary>
-    void NewHeadingRoutine()
+    public void NewHeadingRoutine()
     {
         var floor = Mathf.Clamp(heading - maxHeadingChange, 0, 360);
         var ceil = Mathf.Clamp(heading + maxHeadingChange, 0, 360);
         heading = Random.Range(floor, ceil);
         targetRotation = new Vector3(0, heading, 0);
     }
+
+    public virtual IEnumerator split()
+    {
+        while (splitting)
+        {
+
+            yield return new WaitForSeconds(splitTime);
+            splitPosition = myTransform.TransformPoint(0, 0, -.2f);
+
+            Instantiate(bacteria, splitPosition, Quaternion.Euler(myTransform.eulerAngles.x, myTransform.eulerAngles.y, 0));
+        }
+        
+    }
+
 }

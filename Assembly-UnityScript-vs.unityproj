@@ -44,9 +44,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\AIBridge.js" />
-     <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\AISector.js" />
-     <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\NewBehaviourScript.js" />
      <Compile Include="Assets\ThirdpersonExample\CameraBehavior.js" />
      <Compile Include="Assets\ThirdpersonExample\Mouselook.js" />
      <Compile Include="Assets\ThirdpersonExample\ProjectileScript.js" />

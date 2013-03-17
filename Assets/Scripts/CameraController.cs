@@ -10,38 +10,46 @@ public class CameraController : MonoBehaviour {
     CameraSettings camerasettings;
     public float cameraRotationX = 0f;
 
-    public Transform player;
+    private GameObject char1;
+    private GameObject char2;
+    private GameObject activeChar;
     float temporaryDistance = 5f;
     private Transform thirdPersonTransform;
+    private Transform myTransform;
+    private bool overtheshoulder = false;
+    private bool isActive = true;
+
 
 	// Use this for initialization
 	void Awake () {
-         
+
+
         camerasettings = cameraPerspective[cameraIndex].GetComponent<CameraSettings>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        char1 = GameObject.FindGameObjectWithTag("Player");
+        char2 = GameObject.FindGameObjectWithTag("character2");
         thirdPersonTransform = cameraPerspective[cameraIndex].transform;
+        
+        myTransform = transform;
+        activeChar = char1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         //check if View is blocked
-        removeBlockFromView();
+        switchView();
         getCameraPerspective(); // moves to 3rd person or first person view
-       
-
-        if (cameraPerspective[cameraIndex])
-        {  
-            //disable smoothing if smoothing is zero
+ 
+            // no smoothing if index = 1 (firstperson)
             if (cameraIndex == 1)
             {
-                //snap to position
-                transform.position = cameraPerspective[cameraIndex].position;
-                transform.rotation = cameraPerspective[cameraIndex].rotation;
+             //snap to position
+             myTransform.position = cameraPerspective[cameraIndex].position;
+             myTransform.rotation = cameraPerspective[cameraIndex].rotation;
             }
             else
             {  //the higher the smoothing is the faster the camera will be in position
-                transform.position = Vector3.Lerp(transform.position, cameraPerspective[cameraIndex].position, Time.deltaTime * camerasettings.smoothing);
-                transform.rotation = cameraPerspective[cameraIndex].rotation; 
+            myTransform.position = Vector3.Lerp(transform.position, cameraPerspective[cameraIndex].position, Time.deltaTime * camerasettings.smoothing);
+            myTransform.rotation = cameraPerspective[cameraIndex].rotation; 
             }
 
             //this stores rotation independently, tracks rotation frame to frame                                                                                    
@@ -52,49 +60,63 @@ public class CameraController : MonoBehaviour {
 
 
             //Apply rotation to Camera
-           Camera.main.transform.Rotate(cameraRotationX, 0f, 0f);
+            myTransform.Rotate(cameraRotationX, 0f, 0f);
          
 
             //Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
            // Debug.DrawRay(Camera.main.transform.position, forward, Color.green);
            //returnCameraRotationX();
            
-        }
+        
        
 	}
 
-
-    public void removeBlockFromView()
+    // switch view to avoid block from view
+    public void switchView()
     {
-        Debug.DrawLine(transform.position, player.position, Color.cyan);  
-        RaycastHit hit;
+        if (char1.activeInHierarchy)
+        {
+            Debug.DrawLine(char1.transform.position + new Vector3(0, 1, 0), thirdPersonTransform.position, Color.cyan);
+            activeChar = char1;
+        }
+        else
+        {
+            Debug.DrawLine(char2.transform.position + new Vector3(0, 1, 0), thirdPersonTransform.position, Color.cyan);
+            activeChar = char2;
+        }
+      
 
         /* Check if something is blocking the view*/
 
-
-        if (Physics.Linecast(player.position, thirdPersonTransform.position, out hit))
+        if (!overtheshoulder)
         {
-            temporaryDistance = Vector3.Distance(player.position, hit.point) - 1f;
-            Debug.Log("Distance is" + temporaryDistance);
-            if (temporaryDistance < 1f)
+
+            /* Check if  something is in between the player and the camera */
+            if (Physics.Linecast(activeChar.transform.position + new Vector3(0, 1, 0), thirdPersonTransform.position))
             {
-                temporaryDistance = 1f;
+                /* temporaryDistance = Vector3.Distance(player.position, hit.point) - 1f;
+                  Debug.Log("Distance is" + temporaryDistance);
+                  if (temporaryDistance < 1f)
+                   {
+                  temporaryDistance = 1f;
+                   }*/
+
+                cameraIndex = 1;
             }
-
-
+            else
+            {
+                cameraIndex = 0;
+            }
+        }
+        else
+        {
+            cameraIndex = 1;
         }
         
-        thirdPersonTransform.localPosition = new Vector3(1f, 2f, -temporaryDistance);
-
+        //thirdPersonTransform.localPosition = new Vector3(1f, 2f, -temporaryDistance);
 
     }
 
-    public int getCameraIndex()
-    {
-        
-            return cameraIndex;
-        
-    }
 
     public void getCameraPerspective()
     {
@@ -102,21 +124,19 @@ public class CameraController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             cameraIndex++;
+            overtheshoulder = true;
             Debug.Log("Camera switched");
             if (cameraIndex >= cameraPerspective.Length)
             {
                 cameraIndex = 0;
+                overtheshoulder = false;
 
             }
-            camerasettings = cameraPerspective[cameraIndex].GetComponent<CameraSettings>();
+            
         }
+        camerasettings = cameraPerspective[cameraIndex].GetComponent<CameraSettings>();
         
     }
 
-  
 
-    public float returnCameraRotationX()
-    {
-        return cameraRotationX;
-    }
 }

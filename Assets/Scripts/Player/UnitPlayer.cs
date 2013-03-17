@@ -4,6 +4,8 @@ using System.Collections;
 public class UnitPlayer : Unit {
 
 	// Use this for initialization
+  
+
 	public override void Start () {
 
         base.Start();
@@ -12,7 +14,7 @@ public class UnitPlayer : Unit {
 	// Update is called once per frame
     public override void Update()
     { 
-        //rotate Y angle
+        //handle rotation on Y Axis
         transform.Rotate(0f, Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime, 0f); //turnSpeed is an absolute rotation
 
 
@@ -36,5 +38,6 @@ public class UnitPlayer : Unit {
         running = Input.GetKey(KeyCode.LeftShift);
 
         base.Update();
+
 	}
 }

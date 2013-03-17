@@ -18,6 +18,9 @@ public class Unit : MonoBehaviour
     //Add gravity to char
     protected Vector3 gravity = Vector3.zero;
 	// Use this for initialization
+
+
+
 	public virtual void Start ()
 	{
 
@@ -46,7 +49,8 @@ public class Unit : MonoBehaviour
 
 	}
 
-    public void checkPlayerAction()
+
+    private  void checkPlayerAction()
     {
         if (running)
         {
@@ -60,7 +64,8 @@ public class Unit : MonoBehaviour
         //check if character is off the ground then apply gravity
         if (!control.isGrounded)
         {
-            gravity += Physics.gravity * Time.deltaTime;
+            gravity += Physics.gravity * Time.deltaTime ;
+
         }
         else
         {
@@ -68,9 +73,10 @@ public class Unit : MonoBehaviour
 
             if (jumping)
             {
-                gravity.y = jumpSpeed;
+                gravity.y = 5;
                 jumping = false;
             }
+            
         }
     }
      

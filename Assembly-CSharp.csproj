@@ -44,18 +44,24 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scenes\GameScore.cs" />
+     <Compile Include="Assets\AnimateEcolli.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\AiBacteria.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\MoveTowardsTargetTestAI.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\AIBridges.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\AISector.cs" />
+     <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\FiniteStateAI.cs" />
+     <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\FiniteStateAI1.cs" />
+     <Compile Include="Assets\Scripts\AIEnemy\animateFlagella.cs" />
      <Compile Include="Assets\Scripts\BulletScript.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CameraSettings.cs" />
      <Compile Include="Assets\Scripts\Crosshair.cs" />
      <Compile Include="Assets\Scripts\FireBullet.cs" />
+     <Compile Include="Assets\Scripts\FirstPersonCameraSettings.cs" />
+     <Compile Include="Assets\Scripts\GUI\GameHud.cs" />
      <Compile Include="Assets\Scripts\Player\Unit.cs" />
      <Compile Include="Assets\Scripts\Player\UnitPlayer.cs" />
+     <Compile Include="Assets\Scripts\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\StickyObject.cs" />
      <Compile Include="Assets\Scripts\bulletOriginRayCast.cs" />
      <Compile Include="Assets\Scripts\rotateBulletModel.cs" />

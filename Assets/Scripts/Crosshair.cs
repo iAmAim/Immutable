@@ -9,7 +9,8 @@ public class Crosshair : MonoBehaviour
 {
     public Texture2D crosshairTexture;
     public Color32  crossColor;
-    Rect position;
+    Rect crosshairposition;
+    Rect descriptionPanel;
    // float size = 32;
     
     //raycasting
@@ -18,19 +19,33 @@ public class Crosshair : MonoBehaviour
     public float rayRange = 2;
     RaycastHit hit;
     bool hitSomething;
+    bool showDescription;
     Vector3 rayDirection; //direction where bullet is heading
+
+    string enemy1Desc;
    
 
     void Awake()
     {
+        enemy1Desc = "Enemy Name: Ecoli                                                                       " +
+        "E. coli is a common type of bacteria that can get into food, like beef and vegetables. E. coli is short for the medical term Escherichia coli" +
+        ""+
+        "" +
+        ""; ;
        // GameObject rayTargetObj = GameObject.FindGameObjectWithTag("rayTarget");
        // rayTarget = rayTargetObj.transform;
+        showDescription = false;
     }
     void Start()
 
     {
-        position = new Rect((Screen.width - crosshairTexture.width) / 2, (Screen.height -
-           crosshairTexture.height) / 2, crosshairTexture.width, crosshairTexture.height);
+        /*Crosshair position on screen */
+        crosshairposition = new Rect((Screen.width - crosshairTexture.width) / 2, (Screen.height -
+        crosshairTexture.height) / 2, crosshairTexture.width, crosshairTexture.height);
+
+        /*Description panel position (bottom right)*/
+        descriptionPanel = new Rect(1100, 400, 200, 200);
+
         Screen.lockCursor = true;
       
         rayTarget.localPosition = new Vector3(0f, 0f, 120f); //move this to cameraSettings
@@ -68,26 +83,30 @@ public class Crosshair : MonoBehaviour
                 {
                     Debug.Log("enemy is spotted");
                     crossColor = Color.red;
-                   // Debug.DrawLine(rayOrigin.position,hit.point);
+                   showDescription = true;
+
                 }
 
                 else if (hit.collider.gameObject.tag == "friendly")
                 {
                     Debug.Log("friend is spotted");
                     crossColor = Color.green;
+                   
                     
                 }
                 else
                 {
                    
                     crossColor = Color.white;
+                   // showDescription = false;
                 }
 
             }
             else
             {
                 rayTarget.localPosition = new Vector3(0f, 0f, 120f);
-                crossColor = Color.white;    
+                crossColor = Color.white;
+               // showDescription = false;
             }
         
        
@@ -97,7 +116,14 @@ public class Crosshair : MonoBehaviour
     void OnGUI()
     {
         GUI.color = crossColor;
-        GUI.DrawTexture(position, crosshairTexture);
+        GUI.DrawTexture(crosshairposition, crosshairTexture);
+
+        if (showDescription)
+        {
+            GUI.color = Color.cyan;
+            GUI.Label(descriptionPanel, enemy1Desc);
+        }
+  
         
     }
 }
