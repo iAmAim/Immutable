@@ -23,6 +23,7 @@ public class Crosshair : MonoBehaviour
     Vector3 rayDirection; //direction where bullet is heading
 
     string enemy1Desc;
+    string objectTag;
    
 
     void Awake()
@@ -48,9 +49,11 @@ public class Crosshair : MonoBehaviour
 
         Screen.lockCursor = true;
       
+         /* uncomment if camera settings didnt work
         rayTarget.localPosition = new Vector3(0f, 0f, 120f); //move this to cameraSettings
         rayOrigin.localPosition = new Vector3(0f, 0f, 5f); //move this to cameraSettings
-    }
+    */
+         }
     
     void Update()
     {
@@ -79,26 +82,31 @@ public class Crosshair : MonoBehaviour
                 Debug.DrawLine(rayOrigin.position, hit.point, Color.green);
                 /*Debug statement */
 
-                if (hit.collider.gameObject.tag == "enemy1")
-                {
-                    Debug.Log("enemy is spotted");
-                    crossColor = Color.red;
-                   showDescription = true;
+                objectTag = hit.collider.gameObject.tag;
 
-                }
+                switch (objectTag)
+                {
+                    case "enemy1": 
+                     Debug.Log("ecoli spotted");
+                     crossColor = Color.red;
+                     showDescription = true;
+                        break;
 
-                else if (hit.collider.gameObject.tag == "friendly")
-                {
-                    Debug.Log("friend is spotted");
-                    crossColor = Color.green;
-                   
-                    
-                }
-                else
-                {
-                   
-                    crossColor = Color.white;
-                   // showDescription = false;
+                    case "enemy2":
+                     Debug.Log("staphylococcus spotted");
+                     crossColor = Color.red;
+                     //  showDescription = true; TODO make this a function
+                      // and take enemy tag as parameter to display appropriate
+                      //description
+                        break;
+                    case "enemy3":
+
+                        break;
+
+                    default:
+                        crossColor = Color.white;
+                        break;
+
                 }
 
             }

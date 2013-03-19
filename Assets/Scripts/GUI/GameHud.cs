@@ -7,6 +7,7 @@ public class GameHud : MonoBehaviour {
 
 
     public static int gamescore =0;
+    public static int playerhealth = 100;
 	// Use this for initialization
 	void Start () {
 
@@ -25,6 +26,8 @@ public class GameHud : MonoBehaviour {
     {
         displayScore();
         displayTime();
+        displayPlayerHealth();
+        displayInfectionLevel();
       
 
     }
@@ -40,6 +43,22 @@ public class GameHud : MonoBehaviour {
         GUI.Label(new Rect(Screen.width / 2, 5, 50, 50), "" + Time.timeSinceLevelLoad);
         double rounded = Mathf.Round(Time.timeSinceLevelLoad * 100) / 100;
         GUI.Label(new Rect(300, 5, 50, 50), "" + rounded);
+    }
+
+    void displayPlayerHealth()
+    {
+        GUI.Label(new Rect(5, 50, 100, 20), "Health ");
+        GUI.Label(new Rect(5, 67, 100, 20), playerhealth.ToString());
+
+        if (playerhealth < 1)
+        { //gameover
+            GUI.Label(new Rect(5, 150, 100, 20), "Gameover! ");
+        }
+    }
+
+    void displayInfectionLevel()
+    {
+        
     }
 
 }

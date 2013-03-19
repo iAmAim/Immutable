@@ -3,6 +3,8 @@ using System.Collections;
 
 /// <summary>
 /// This script is to be attached to bullet projectile and defines bullet behaviour
+/// Particle explosion is also added here - bullet_explosion
+///  docs.unity3d.com/Documentation/ScriptReference/ParticleAnimator-colorAnimation.html 
 /// </summary>
 
 public class BulletScript : MonoBehaviour {
@@ -28,9 +30,10 @@ public class BulletScript : MonoBehaviour {
     // lifespan of the projectile in seconds
 
     private float bulletLife;
-    private bool bullet1;
-    private bool bullet2;
+    private bool isbullet1;
+    private bool isbullet2;
 
+    public GameObject bulletexplosion;
 
     //----------------- Variables end ----------------------------------//
 
@@ -46,8 +49,8 @@ public class BulletScript : MonoBehaviour {
         bulletLife = 4;
         range = 0.5f;
         alreadyhitsomething = false;
-        bullet1 = false;
-        bullet2 = false;
+        isbullet1 = false;
+        isbullet2 = false;
     }
 
 	// Use this for initialization
@@ -55,20 +58,31 @@ public class BulletScript : MonoBehaviour {
         // Check which bullet is fired
         if (myTransform.tag.Equals("bullet1"))
         {
-            bullet1 = true;
+            isbullet1 = true;
+            float rr = .9f;
+            float gg = .9f;
+            float bb = .5f;
+            float aa = .5f;
+            changeBulletExplosionColor(rr,gg,bb,aa);
+
         }
         else
             if (myTransform.tag.Equals("bullet2"))
          {
-                bullet2 = true;
+                isbullet2 = true;
+                float rr = .59f;
+                float gg = .57f;
+                float bb = .9f;
+                float aa = .5f;
+                changeBulletExplosionColor(rr, gg, bb, aa);
           }
           
         //assign to myTransform of whatever the script is attached to (attached to Bullet) This saves Transform component for caching 
      
         // As soon as projectile is created, start countdown then destroy game object.
-        StartCoroutine(destroyBullet());  
-	
-	}
+        StartCoroutine(destroyBullet());
+  
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -86,7 +100,7 @@ public class BulletScript : MonoBehaviour {
         {
 
 
-            if (hit.transform.tag == "enemy1" && bullet1)
+            if (hit.transform.tag == "enemy1" && isbullet1)
             {
                 /* // Dynamically create a fixedjoint to stick bullets to the enemy 
                  var joint = myTransform.gameObject.AddComponent<FixedJoint>();
@@ -107,7 +121,7 @@ public class BulletScript : MonoBehaviour {
                    Debug.Log("enemy(bacteria) is hit");      
                 
             }
-            else if (hit.transform.tag == "enemy2" && bullet2)
+            else if (hit.transform.tag == "enemy2" && isbullet2)
             {
               
                 alreadyhitsomething = true;
@@ -125,6 +139,8 @@ public class BulletScript : MonoBehaviour {
 
             else
             {
+                
+                Instantiate(bulletexplosion,hit.point, Quaternion.identity);
                 // TODO: Add particle effects here
                 Destroy(myTransform.gameObject);
             }
@@ -144,7 +160,29 @@ public class BulletScript : MonoBehaviour {
        
     }
 
-
+    void changeBulletExplosionColor(float r, float g, float b, float a)
+    {
+       
+        /*change particle color*/
+        ParticleAnimator particleAnimator = bulletexplosion.GetComponent<ParticleAnimator>();
+        int i = 0;
+        Color[] modifiedColors = particleAnimator.colorAnimation;
+        while (i < modifiedColors.Length)
+        {
+            modifiedColors[i] = new Color(r, g, b, a);
+            if (isbullet1)
+            {
+                b -= .1f;
+            }
+            else if (isbullet2)
+            {
+                r -= .1f;
+            }
+            i++;
+        }
+        particleAnimator.colorAnimation = modifiedColors;
+            
+    }
 
     
 

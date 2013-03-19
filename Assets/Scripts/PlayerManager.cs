@@ -7,10 +7,12 @@ public class PlayerManager : MonoBehaviour {
     GameObject firstperson;
     GameObject character2;
     GameObject character1;
+    Transform rayOrigin;
     bool isactive;
+    float charchangecooldown = 5f;
+    float nextcooldown = 0;
 
 
-   public int charindex;
    GameObject activeChar;
  
     void Awake()
@@ -19,6 +21,7 @@ public class PlayerManager : MonoBehaviour {
         firstperson = GameObject.FindGameObjectWithTag("FirstPersonCamera");
         character2 = GameObject.FindGameObjectWithTag("character2");
         character1 = GameObject.FindGameObjectWithTag("Player");
+        rayOrigin = GameObject.FindGameObjectWithTag("target").transform;
        
     }
 	// Use this for initialization
@@ -30,9 +33,9 @@ public class PlayerManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown("3"))
+        if (Input.GetKeyDown("3") && Time.time > nextcooldown)
         {
-
+            nextcooldown = Time.time + charchangecooldown;
             switchPlayer();
 
         }
@@ -43,79 +46,35 @@ public class PlayerManager : MonoBehaviour {
     {
         if (!character1.activeInHierarchy){
 
-            character1.transform.position = character2.transform.position + new Vector3(0, 20, 0);
            // activateCharacter1();
             activateChar(character1, character2);
-            character1.transform.position = character2.transform.position + new Vector3(0, 20, 0);
+            character1.transform.position = character2.transform.position + new Vector3(0, 10, 0);
 
        }
         else
         { 
-            character2.transform.position = character1.transform.position + new Vector3(0, 20, 0);
             //activateCharacter2();
             activateChar(character2, character1);
+            character2.transform.position = character1.transform.position + new Vector3(0, 10, 0);
         }
     }
 
-    /*void activateCharacter1()
-    {
-        character1.SetActive(true);
-        character2.SetActive(false);
-
-        thirdperson.transform.parent = character1.transform;
-        firstperson.transform.parent = character1.transform;
-        thirdperson.transform.localPosition = new Vector3(2f, 1.33f, -5f);
-        thirdperson.transform.localRotation = Quaternion.identity;
-        firstperson.transform.localRotation = Quaternion.identity;
-        firstperson.transform.localPosition = new Vector3(.64f, 0.96f, -1.21f);
-        character1.transform.position = character2.transform.position;
-        character1.transform.rotation = character2.transform.rotation;
-
-
-        
-        Debug.Log("player switched");
-    }
-
-
-    void activateCharacter2()
-    {
-   
-        
-        character1.SetActive(false); //deactivate character1
-        character2.SetActive(true);  //activate player2
-        character2.transform.position = character1.transform.position;
-        // attach gameobjects to character2
-        thirdperson.transform.parent = character2.transform;
-        firstperson.transform.parent = character2.transform;
-        thirdperson.transform.localPosition = new Vector3(2f, 1.33f, -5f);
-        firstperson.transform.localPosition = new Vector3(.64f, 0.96f, -1.21f);
-        thirdperson.transform.localRotation = Quaternion.identity;
-        firstperson.transform.localRotation = Quaternion.identity;
-     
-        character2.transform.rotation = character1.transform.rotation;
-        
-        Debug.Log("player switched");
-
-
-
-        //character1.GetComponent<FireBullet>().enabled = false;
-        // character1.GetComponentInChildren<FireBullet>().enabled = false;
-        // var playerscript = character1.GetComponent<UnitPlayer>();
-        // playerscript.enabled = false;
-    }*/
 
     void activateChar(GameObject activeChar, GameObject inactiveChar)
     {
-        inactiveChar.SetActive(false); //deactivate character1
-        activeChar.SetActive(true);  //activate player2
+        inactiveChar.SetActive(false); //deactivate param2
+        activeChar.SetActive(true);  //activate param1
         activeChar.transform.position = inactiveChar.transform.position;
         // attach gameobjects to character2
         thirdperson.transform.parent = activeChar.transform;
         firstperson.transform.parent = activeChar.transform;
-        thirdperson.transform.localPosition = new Vector3(2f, 1.33f, -5f);
+        //  thirdperson.transform.localPosition = new Vector3(2f, 1.33f, -5f);old
+
+        thirdperson.transform.localPosition = new Vector3(.5f, 0.70f, -1.5f);
         firstperson.transform.localPosition = new Vector3(.64f, 0.96f, -1.21f);
         thirdperson.transform.localRotation = Quaternion.identity;
         firstperson.transform.localRotation = Quaternion.identity;
+        rayOrigin.localPosition = new Vector3(0,0,5f);
 
         activeChar.transform.rotation = inactiveChar.transform.rotation;
       

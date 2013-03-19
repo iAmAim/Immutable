@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\StickyObject.cs" />
      <Compile Include="Assets\Scripts\bulletOriginRayCast.cs" />
      <Compile Include="Assets\Scripts\rotateBulletModel.cs" />
+     <Compile Include="Assets\animateStaph.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">

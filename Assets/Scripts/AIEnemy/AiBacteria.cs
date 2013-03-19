@@ -19,6 +19,9 @@ public class AiBacteria : Unit
     public float splitTime;
     private bool splitting;
     public bool randomWalk;
+
+    //used for animation
+    private bool isbacteria2 = false;
     
 
    public virtual void Awake()
@@ -27,12 +30,13 @@ public class AiBacteria : Unit
         timeBeforeDirectionChange = 1f; 
         // Set random initial rotation
         walkSpeed = 1f;
-        splitTime = 100f;
-        health = 2;
+        splitTime = 20f;
+        health = 3;
         splitting = true;
         randomWalk = true;
+       
 
-      
+    
     }
 
     public override void Start()
@@ -42,7 +46,11 @@ public class AiBacteria : Unit
        myTransform.eulerAngles = new Vector3(0, heading, 0);
         StartCoroutine(RandomWalk());
         StartCoroutine(split());
-       
+
+        if (myTransform.tag == "enemy2")
+        {
+            isbacteria2 = true;
+        }
 
     }
 
@@ -52,22 +60,26 @@ public class AiBacteria : Unit
         myTransform.eulerAngles = Vector3.Slerp(myTransform.eulerAngles, targetRotation, Time.deltaTime * timeBeforeDirectionChange);
        move = myTransform.TransformDirection(Vector3.forward);
 
-       //animate does not work
-      // myTransform.animation.CrossFade("walk", 1.5f);
-
        Debug.DrawRay(myTransform.position, myTransform.forward , Color.red);
+   
+
+        //Animate enemy2 (bateria staphyloccocus)
+       if (isbacteria2)
+       {
+           myTransform.animation.CrossFade("walk", .1f);
+       }
 
       
-       
     }
 
     public virtual void takeDamage()
     {
         health--;
+        
         //StopCoroutine("split");
 
         if (health < 1)
-        {
+        { 
             Destroy(myTransform.gameObject);
             GameHud.gamescore += 500;
         }

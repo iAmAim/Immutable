@@ -1,4 +1,7 @@
-//File: CoMiner.cs
+///<summary> 
+////// This class demonstrates the behaviour of spirochetes bacteria
+////// 
+///</summary>
 
 using UnityEngine;
 using System.Collections;
@@ -9,14 +12,15 @@ public class FiniteStateAI1 : AiBacteria {
     float distance;
     Transform target;
     float lookAtDistance = 15;
-    float movespeed = 5;
-    float rotationspeed = 5;
+    float rotationspeed = 15;
     public State state;
+    float attackrange = 2;
+    Vector3 directionheading;
+    GameObject playerObj;
 
 
     public enum State
     {
-        NewHeading,
         ChasePlayer,
         RandomWalk
     }
@@ -24,7 +28,7 @@ public class FiniteStateAI1 : AiBacteria {
     public override void Awake()
     {
         base.Awake();
-        GameObject playerObj = GameObject.FindGameObjectWithTag("character2");
+        playerObj = GameObject.FindGameObjectWithTag("character2");
         target = playerObj.transform;
         state = State.RandomWalk;
         StartCoroutine(FSM());
@@ -37,7 +41,7 @@ public class FiniteStateAI1 : AiBacteria {
     {
         base.Start();
         thisTransform = transform;
-
+        
     }
 
     IEnumerator FSM()
@@ -51,28 +55,32 @@ public class FiniteStateAI1 : AiBacteria {
 
   public override IEnumerator RandomWalk()
   {
+  
       
       print("random walking...");
-     yield return null;
+     //////yield return null;
 
       /* Now we enter in the Execute part of a state
-      which will be usually inside a while - yield block */
+       which will be usually inside a while - yield block */
 
       bool playernotinrange = true;
       //distance = Vector3.Distance(target.position, thisTransform.position);
 
       while (playernotinrange)
       {
-          NewHeadingRoutine();
+          
+        NewHeadingRoutine();
         //  distance = Vector3.Distance(target.position, thisTransform.position);
 
-          if (distance < lookAtDistance)
+        if (distance < lookAtDistance)
           {
               playernotinrange = false;
+              randomWalk = false;
           }
 
 
-          yield return new WaitForSeconds(timeBeforeDirectionChange);
+         yield return new WaitForSeconds(timeBeforeDirectionChange);
+
       }
           /* And finally do something before leaving the state */
 
@@ -85,26 +93,7 @@ public class FiniteStateAI1 : AiBacteria {
   {
 
       base.Update();
-
      distance = Vector3.Distance(target.position, thisTransform.position);
-
-
-
-    if (distance < lookAtDistance)
-     {
-         Debug.Log("asdasdasdasdasdasdas!!");
-         randomWalk = false;
-         //StopCoroutine("NewHeading");
-         Chase();
-
-     }
-     else
-     {
-         base.Update();
-       // StartCoroutine(NewHeading());
-         randomWalk = true;
-     } 
-
 
   }
 
@@ -112,21 +101,23 @@ public class FiniteStateAI1 : AiBacteria {
   {
       print("Chasing player for real..");
       yield return null;
-      print("Chasing player for real..");
+      print("Chasing player for real real..");
 
       //Execute chase
       bool chasing = true;
-      
+      running = true;
+
       while (chasing)
       {
           Chase();
 
-          if (distance > lookAtDistance)
+          if (distance > lookAtDistance ||  !playerObj.activeInHierarchy)
           {
               chasing = false;
+              running = false;
           }
 
-          yield return new WaitForSeconds(1);
+          yield return null;
       }
 
       //Exit chase
@@ -135,22 +126,30 @@ public class FiniteStateAI1 : AiBacteria {
 
 
   }
-  Vector3 direction;
+
   public void Chase()
   {
-      direction = target.position - transform.position;
-      direction.y = 0;
+      directionheading = target.position - transform.position;
+      directionheading.y = 0;
 
-     // if (direction.magnitude < 0.1)
-     //return;
+      /*if (direction.magnitude < 0.1)
+     return;*/
       // Rotate towards the target
-      transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationspeed * Time.deltaTime);
-      transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+      thisTransform.rotation = Quaternion.Slerp(thisTransform.rotation, Quaternion.LookRotation(directionheading), rotationspeed * Time.deltaTime);
+      thisTransform.eulerAngles = new Vector3(0, thisTransform.eulerAngles.y, 0);
 
 
       move = thisTransform.TransformDirection(Vector3.forward);
       // myTransform.position = new Vector3(0,10,0);
       control.Move(move * walkSpeed * Time.deltaTime);
+
+      // attack player if distance is close enough
+      if (distance <= attackrange)
+      {
+          //attack(); I used jumping for now.
+          jumping = true;
+          GameHud.playerhealth--;
+      }
   }
 
   

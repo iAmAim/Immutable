@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour {
     private Transform thirdPersonTransform;
     private Transform myTransform;
     private bool overtheshoulder = false;
-    private bool isActive = true;
 
 
 	// Use this for initialization
@@ -90,9 +89,10 @@ public class CameraController : MonoBehaviour {
 
         if (!overtheshoulder)
         {
+            RaycastHit hit;
 
             /* Check if  something is in between the player and the camera */
-            if (Physics.Linecast(activeChar.transform.position + new Vector3(0, 1, 0), thirdPersonTransform.position))
+            if (Physics.Linecast(activeChar.transform.position + new Vector3(0, 1, 0), thirdPersonTransform.position, out hit, 9))
             {
                 /* temporaryDistance = Vector3.Distance(player.position, hit.point) - 1f;
                   Debug.Log("Distance is" + temporaryDistance);
@@ -100,7 +100,7 @@ public class CameraController : MonoBehaviour {
                    {
                   temporaryDistance = 1f;
                    }*/
-
+                //Debug.Log("CAMERA HITS " + hit.transform.tag);
                 cameraIndex = 1;
             }
             else
