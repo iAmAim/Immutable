@@ -54,9 +54,34 @@ public class FireBullet : MonoBehaviour {
 
         myTransform.LookAt(bulletTarget); // looks at rayTarget object
 
+        LoadBullet();
+        Shoot();
+	
+	}
 
-   
+    void Shoot()
+    {
+        // check if time is greater than nextfire
+        if (Input.GetButton("Fire Weapon") && Time.time > nextFire)
+        {
 
+
+            nextFire = Time.time + fireRate;
+            launchPosition = myTransform.TransformPoint(0, 0, 0);
+
+            //create bullet projectile at launchPosition and tilt the angle  
+            // so that it is horizontal using the angle  eulerAngles.x + 90
+
+            Instantiate(bulletLoaded, launchPosition, Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
+            Instantiate(bulletLoaded, launchPosition + new Vector3(0, .2f, 0), Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
+            //Instantiate(bulletLoaded, launchPosition, Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
+
+        }
+    }
+
+
+    void LoadBullet()
+    {
         if (Input.GetKeyDown("1"))
         {
             bulletLoaded = bullet1;
@@ -66,24 +91,5 @@ public class FireBullet : MonoBehaviour {
         {
             bulletLoaded = bullet2;
         }
-
-         
-        // check if time is greater than nextfire
-        if(Input.GetButton("Fire Weapon") && Time.time > nextFire)
-        {
-
-            
-            nextFire = Time.time + fireRate;
-            launchPosition = myTransform.TransformPoint(0, 0, 0); 
-             
-            //create bullet projectile at launchPosition and tilt the angle  
-            // so that it is horizontal using the angle  eulerAngles.x + 90
-
-            Instantiate(bulletLoaded, launchPosition, Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
-            Instantiate(bulletLoaded, launchPosition + new Vector3(0,.2f,0), Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
-            //Instantiate(bulletLoaded, launchPosition, Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
-          
-        }
-	
-	}
+    }
 }

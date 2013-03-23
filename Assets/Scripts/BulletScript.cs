@@ -15,7 +15,7 @@ public class BulletScript : MonoBehaviour {
     private Transform myTransform;
 
     //projectile flight speed
-    private float projectileSpeed;
+    private float bulletSpeed;
 
     //prevent projectile from causing further harm once it hits something
     private bool alreadyhitsomething;
@@ -45,7 +45,7 @@ public class BulletScript : MonoBehaviour {
         Physics.IgnoreLayerCollision(8, 9);
         // Ignore bullet colliding with bullet 
         Physics.IgnoreLayerCollision(8, 8);
-        projectileSpeed = 30;
+        bulletSpeed = 50;
         bulletLife = 4;
         range = 0.5f;
         alreadyhitsomething = false;
@@ -88,7 +88,7 @@ public class BulletScript : MonoBehaviour {
 	void Update () {
 
         //Translate the projectile in the up direction cause bullet travels on  Y axis
-        myTransform.Translate(Vector3.up * projectileSpeed * Time.deltaTime);
+        myTransform.Translate(Vector3.up * bulletSpeed * Time.deltaTime);
         
         // TODO: ADd particle effects here
 
@@ -108,7 +108,7 @@ public class BulletScript : MonoBehaviour {
                  projectileSpeed = 0;    this fails.
                  */
                 alreadyhitsomething = true;
-                projectileSpeed = 0;
+                bulletSpeed = 0;
                // myTransform.collider.enabled = false;
                 myTransform.collider.isTrigger = true;
                    // myTransform.parent = hit.transform.gameObject.transform;
@@ -125,7 +125,7 @@ public class BulletScript : MonoBehaviour {
             {
               
                 alreadyhitsomething = true;
-                projectileSpeed = 0;
+                bulletSpeed = 0;
                 myTransform.collider.isTrigger = true;
                 myTransform.parent = hit.transform;
 

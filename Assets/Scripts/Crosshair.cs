@@ -22,20 +22,31 @@ public class Crosshair : MonoBehaviour
     bool showDescription;
     Vector3 rayDirection; //direction where bullet is heading
 
-    string enemy1Desc;
+    public string ecoliDescription;
+    public string staphDescription;
     string objectTag;
-   
+    
+    public string[] myString = { "blah", "", "" };
+    int organism;
+    int temp = 0;
+
+
+
+
 
     void Awake()
     {
-        enemy1Desc = "Enemy Name: Ecoli                                                                       " +
+        ecoliDescription = "Enemy Name: Ecoli-                                                                       " +
         "E. coli is a common type of bacteria that can get into food, like beef and vegetables. E. coli is short for the medical term Escherichia coli" +
         ""+
         "" +
-        ""; ;
-       // GameObject rayTargetObj = GameObject.FindGameObjectWithTag("rayTarget");
-       // rayTarget = rayTargetObj.transform;
+        ""; 
+
+        staphDescription = "Staphyloccocus aureus - ";
         showDescription = false;
+        myString[1] = ecoliDescription;
+        myString[2] = staphDescription;
+
     }
     void Start()
 
@@ -48,11 +59,7 @@ public class Crosshair : MonoBehaviour
         descriptionPanel = new Rect(1100, 400, 200, 200);
 
         Screen.lockCursor = true;
-      
-         /* uncomment if camera settings didnt work
-        rayTarget.localPosition = new Vector3(0f, 0f, 120f); //move this to cameraSettings
-        rayOrigin.localPosition = new Vector3(0f, 0f, 5f); //move this to cameraSettings
-    */
+
          }
     
     void Update()
@@ -89,15 +96,20 @@ public class Crosshair : MonoBehaviour
                     case "enemy1": 
                      Debug.Log("ecoli spotted");
                      crossColor = Color.red;
-                     showDescription = true;
+                     InspectOrganism();
+                     temp = 1;
+                  
+             
                         break;
 
                     case "enemy2":
                      Debug.Log("staphylococcus spotted");
                      crossColor = Color.red;
-                     //  showDescription = true; TODO make this a function
-                      // and take enemy tag as parameter to display appropriate
-                      //description
+                    InspectOrganism();
+                     temp = 2;
+                     
+
+
                         break;
                     case "enemy3":
 
@@ -105,6 +117,7 @@ public class Crosshair : MonoBehaviour
 
                     default:
                         crossColor = Color.white;
+                        temp = 0;
                         break;
 
                 }
@@ -116,22 +129,55 @@ public class Crosshair : MonoBehaviour
                 crossColor = Color.white;
                // showDescription = false;
             }
-        
-       
+
+           // Debug.Log("objectDesc is " + temp);
     }
 
 
     void OnGUI()
     {
+        // Draw crosshair on the screen
         GUI.color = crossColor;
         GUI.DrawTexture(crosshairposition, crosshairTexture);
 
-        if (showDescription)
+        //Show description panel
+       if (showDescription )
         {
+            
             GUI.color = Color.cyan;
-            GUI.Label(descriptionPanel, enemy1Desc);
+            GUI.Label(descriptionPanel, myString[organism]);
+
         }
-  
-        
+       // else //hide description panel
+       // {
+           // showDescription = false;
+       // }
+
+ 
+
     }
+
+  void InspectOrganism()
+    {
+        int objectDescription = 0;
+        showDescription = true;
+           if (Input.GetKeyDown(KeyCode.E))
+           {
+               showDescription = true;
+               objectDescription = temp;
+               organism = temp;
+               //return objectDescription;
+
+           }
+          // else
+           //{
+           //    return objectDesc;
+           //}
+          //return objectDescription;
+ 
+    }
+
+
+
+
 }

@@ -80,7 +80,7 @@ public class CameraController : MonoBehaviour {
         }
         else
         {
-            Debug.DrawLine(char2.transform.position + new Vector3(0, 1, 0), thirdPersonTransform.position, Color.cyan);
+            Debug.DrawLine(char2.transform.position + new Vector3(1, 1, 0), thirdPersonTransform.position, Color.cyan);
             activeChar = char2;
         }
       
@@ -92,7 +92,7 @@ public class CameraController : MonoBehaviour {
             RaycastHit hit;
 
             /* Check if  something is in between the player and the camera */
-            if (Physics.Linecast(activeChar.transform.position + new Vector3(0, 1, 0), thirdPersonTransform.position, out hit, 9))
+            if (Physics.Linecast(activeChar.transform.position + new Vector3(1, 1, 0), thirdPersonTransform.position, out hit, 9))
             {
                 /* temporaryDistance = Vector3.Distance(player.position, hit.point) - 1f;
                   Debug.Log("Distance is" + temporaryDistance);
@@ -100,7 +100,7 @@ public class CameraController : MonoBehaviour {
                    {
                   temporaryDistance = 1f;
                    }*/
-                //Debug.Log("CAMERA HITS " + hit.transform.tag);
+                Debug.Log("CAMERA HITS " + hit.transform.tag);
                 cameraIndex = 1;
             }
             else
@@ -120,9 +120,10 @@ public class CameraController : MonoBehaviour {
 
     public void getCameraPerspective()
     {
-      
-        if (Input.GetKeyDown(KeyCode.Tab))
+        // if user right clicks, zoom in
+        if (Input.GetKeyDown(KeyCode.Mouse1)) //
         {
+            
             cameraIndex++;
             overtheshoulder = true;
             Debug.Log("Camera switched");

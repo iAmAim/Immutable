@@ -4,7 +4,8 @@ using System.Collections;
 public class UnitPlayer : Unit {
 
 	// Use this for initialization
-  
+
+    public static float health = 1000f;
 
 	public override void Start () {
 
@@ -40,4 +41,37 @@ public class UnitPlayer : Unit {
         base.Update();
 
 	}
+
+   public static void takeDamage()
+    {
+        
+        health--;
+       
+    }
+
+   public static float DisplayHealth()
+   {
+       return health;
+   }
+
+   public void eatBacteria()
+   {
+       //create an interface and and attach it to player only if
+       // the player is character2( the leukocyte(neutrophil)
+       
+   }
+       
+       
+
+    // test
+     void OnTriggerEnter(Collider c)
+     {
+         if (c.gameObject.tag == "Ground")
+         {
+             Debug.Log("I hit the ground!!!!");
+
+         }
+
+
+     } 
 }

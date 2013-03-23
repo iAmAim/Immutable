@@ -57,8 +57,11 @@ public class AiBacteria : Unit
     public override void Update()
     {
         base.Update();
+
+        //Rotate
         myTransform.eulerAngles = Vector3.Slerp(myTransform.eulerAngles, targetRotation, Time.deltaTime * timeBeforeDirectionChange);
-       move = myTransform.TransformDirection(Vector3.forward);
+       //Move
+        move = myTransform.TransformDirection(Vector3.forward);
 
        Debug.DrawRay(myTransform.position, myTransform.forward , Color.red);
    

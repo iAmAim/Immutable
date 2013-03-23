@@ -6,8 +6,7 @@ using System.Collections;
 public class GameHud : MonoBehaviour {
 
 
-    public static int gamescore =0;
-    public static int playerhealth = 100;
+    public static int gamescore = 0;
 	// Use this for initialization
 	void Start () {
 
@@ -48,9 +47,9 @@ public class GameHud : MonoBehaviour {
     void displayPlayerHealth()
     {
         GUI.Label(new Rect(5, 50, 100, 20), "Health ");
-        GUI.Label(new Rect(5, 67, 100, 20), playerhealth.ToString());
+        GUI.Label(new Rect(5, 67, 100, 20), UnitPlayer.DisplayHealth().ToString());
 
-        if (playerhealth < 1)
+        if (UnitPlayer.DisplayHealth() < 1)
         { //gameover
             GUI.Label(new Rect(5, 150, 100, 20), "Gameover! ");
         }

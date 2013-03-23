@@ -14,7 +14,7 @@ public class FiniteStateAI1 : AiBacteria {
     float lookAtDistance = 15;
     float rotationspeed = 15;
     public State state;
-    float attackrange = 2;
+    public float attackrange = 2;
     Vector3 directionheading;
     GameObject playerObj;
 
@@ -31,7 +31,7 @@ public class FiniteStateAI1 : AiBacteria {
         playerObj = GameObject.FindGameObjectWithTag("character2");
         target = playerObj.transform;
         state = State.RandomWalk;
-        StartCoroutine(FSM());
+        StartCoroutine(StateMachine());
 
         
     }
@@ -44,7 +44,7 @@ public class FiniteStateAI1 : AiBacteria {
         
     }
 
-    IEnumerator FSM()
+    IEnumerator StateMachine()
     {
         // Execute the current coroutine (state)
         while (true)
@@ -57,7 +57,7 @@ public class FiniteStateAI1 : AiBacteria {
   {
   
       
-      print("random walking...");
+     // print("random walking...");
      //////yield return null;
 
       /* Now we enter in the Execute part of a state
@@ -139,16 +139,24 @@ public class FiniteStateAI1 : AiBacteria {
       thisTransform.eulerAngles = new Vector3(0, thisTransform.eulerAngles.y, 0);
 
 
-      move = thisTransform.TransformDirection(Vector3.forward);
+     // move = thisTransform.TransformDirection(Vector3.forward);
       // myTransform.position = new Vector3(0,10,0);
-      control.Move(move * walkSpeed * Time.deltaTime);
+     // control.Move(move * walkSpeed * Time.deltaTime);
+
+
+      ////// test distance..
+      float ourdistance = Vector3.Distance(target.position, thisTransform.position);
 
       // attack player if distance is close enough
-      if (distance <= attackrange)
+      if (ourdistance <= attackrange)
       {
           //attack(); I used jumping for now.
-          jumping = true;
-          GameHud.playerhealth--;
+          //jumping = true;
+         // GameHud.playerhealth--;
+          UnitPlayer.takeDamage();
+          //Debug.Log("I bite you. :p");
+          Debug.Log("Distance :" + distance);
+         
       }
   }
 
