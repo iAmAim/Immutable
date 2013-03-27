@@ -94,7 +94,7 @@ public class CameraController : MonoBehaviour {
             /* Check if  something is in between the player and the camera */
             if (Physics.Linecast(activeChar.transform.position + new Vector3(1, 1, 0), thirdPersonTransform.position, out hit, 9))
             {
-                /* temporaryDistance = Vector3.Distance(player.position, hit.point) - 1f;
+               /* temporaryDistance = Vector3.Distance(activeChar.transform.position, hit.point) - 1f;
                   Debug.Log("Distance is" + temporaryDistance);
                   if (temporaryDistance < 1f)
                    {

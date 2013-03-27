@@ -6,8 +6,7 @@ public class UnitPlayer : Unit {
 	// Use this for initialization
 
     public static float health = 1000f;
-
-	public override void Start () {
+    public override void Start () {
 
         base.Start();
 	}
@@ -39,6 +38,7 @@ public class UnitPlayer : Unit {
         running = Input.GetKey(KeyCode.LeftShift);
 
         base.Update();
+        animatePlayer();
 
 	}
 
@@ -60,8 +60,36 @@ public class UnitPlayer : Unit {
        // the player is character2( the leukocyte(neutrophil)
        
    }
-       
-       
+
+
+   public void animatePlayer()
+   {
+       if (Input.GetKey("w"))
+       {
+
+          transform.animation.CrossFade("forward", 1.5f);
+       }
+       else if (Input.GetKey("a"))
+       {
+
+           transform.animation.CrossFade("left", 1.5f);
+       }
+       else if (Input.GetKey("s"))
+       {
+
+           transform.animation.CrossFade("right", 1.5f);
+       }
+       else if (Input.GetKey("d"))
+       {
+
+           transform.animation.CrossFade("back", 1.5f);
+       }
+       else 
+       {
+
+          transform.animation.CrossFade("idle", 1.5f);
+       }
+   }
 
     // test
      void OnTriggerEnter(Collider c)

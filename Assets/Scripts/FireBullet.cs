@@ -18,7 +18,7 @@ public class FireBullet : MonoBehaviour {
     //the position at which the projectile will be instantiated
     private Vector3 launchPosition = new Vector3();
 
-    // Add fire rate: higher = faster
+    // Add fire rate: lower = faster
     private float fireRate = 0.15f;
     private float nextFire = 0;
 
@@ -73,7 +73,7 @@ public class FireBullet : MonoBehaviour {
             // so that it is horizontal using the angle  eulerAngles.x + 90
 
             Instantiate(bulletLoaded, launchPosition, Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
-            Instantiate(bulletLoaded, launchPosition + new Vector3(0, .2f, 0), Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
+            //Instantiate(bulletLoaded, launchPosition + new Vector3(0, .2f, 0), Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
             //Instantiate(bulletLoaded, launchPosition, Quaternion.Euler(myTransform.eulerAngles.x + 90, myTransform.eulerAngles.y, 0));
 
         }

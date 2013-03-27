@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviour {
 
         thirdPersonOffset = new Vector3(.5f, 0.70f, -1.5f);
         thirdPersonZoomOffset = new Vector3(.5f, 0.7f, -.8f);
-        characterOffset = new Vector3(0, 10, 0); 
+        characterOffset = new Vector3(0, 4, 0); 
        
     }
 	// Use this for initialization

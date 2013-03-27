@@ -34,6 +34,8 @@ public class BulletScript : MonoBehaviour {
     private bool isbullet2;
 
     public GameObject bulletexplosion;
+    ParticleAnimator particleAnimator;
+    ParticleEmitter particleemitter;
 
     //----------------- Variables end ----------------------------------//
 
@@ -45,17 +47,23 @@ public class BulletScript : MonoBehaviour {
         Physics.IgnoreLayerCollision(8, 9);
         // Ignore bullet colliding with bullet 
         Physics.IgnoreLayerCollision(8, 8);
-        bulletSpeed = 50;
+        bulletSpeed = 60;
         bulletLife = 4;
         range = 0.5f;
         alreadyhitsomething = false;
         isbullet1 = false;
         isbullet2 = false;
+        particleAnimator = bulletexplosion.GetComponent<ParticleAnimator>();
+        particleemitter = bulletexplosion.GetComponent<ParticleEmitter>();
     }
 
 	// Use this for initialization
 	void Start () {
         // Check which bullet is fired
+
+        particleemitter.minSize = .1f;
+        particleemitter.minSize = .4f;
+
         if (myTransform.tag.Equals("bullet1"))
         {
             isbullet1 = true;
@@ -91,6 +99,8 @@ public class BulletScript : MonoBehaviour {
         myTransform.Translate(Vector3.up * bulletSpeed * Time.deltaTime);
         
         // TODO: ADd particle effects here
+        particleemitter.minSize = .1f;
+        particleemitter.minSize = .4f;
 
 
         // if the ray hits something then execute this code.
@@ -134,6 +144,14 @@ public class BulletScript : MonoBehaviour {
                 aibacteria.takeDamage(); // bacteria takes damage 
                 Debug.Log("enemy(bacteria) is hit");
 
+                if (aibacteria.alreadydead)
+                {
+                   // particleemitter.minSize = .4f;
+                   // particleemitter.minSize = .8f; 
+                    particleAnimator.force = new Vector3(0, 5f, 0);
+                    Instantiate(bulletexplosion, hit.point, Quaternion.identity);
+                }
+
             }
         
 
@@ -164,7 +182,7 @@ public class BulletScript : MonoBehaviour {
     {
        
         /*change particle color*/
-        ParticleAnimator particleAnimator = bulletexplosion.GetComponent<ParticleAnimator>();
+         
         int i = 0;
         Color[] modifiedColors = particleAnimator.colorAnimation;
         while (i < modifiedColors.Length)

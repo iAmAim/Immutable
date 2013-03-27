@@ -5,20 +5,33 @@ using System.Collections;
 
 public class GameHud : MonoBehaviour {
 
+    public static float activeBacteriaCount;
+    public float totalBacteriaCount;
+    public float totalBacteriaKilled;
+
+    GameObject[] allBacteria;
 
     public static int gamescore = 0;
 	// Use this for initialization
+
+    void Awake()
+    {
+        activeBacteriaCount = GameObject.FindGameObjectsWithTag("enemy1").Length
+          + GameObject.FindGameObjectsWithTag("enemy2").Length
+          + GameObject.FindGameObjectsWithTag("enemy3").Length
+          + GameObject.FindGameObjectsWithTag("enemy4").Length;
+
+    }
 	void Start () {
 
-      
-	
+     
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-       // Debug.Log("Gamescore is " + gamescore);
-       
+
 	}
 
     void OnGUI()
@@ -58,6 +71,9 @@ public class GameHud : MonoBehaviour {
     void displayInfectionLevel()
     {
         
+        GUI.Label(new Rect(1000, 5, 100, 20), "Infection Level: " );
+        GUI.Label(new Rect(1100, 5, 100, 20), activeBacteriaCount.ToString());
+    
     }
 
 }

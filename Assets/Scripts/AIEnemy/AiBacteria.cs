@@ -19,6 +19,8 @@ public class AiBacteria : Unit
     public float splitTime;
     private bool splitting;
     public bool randomWalk;
+    public float deathTime;
+    public bool alreadydead;
 
     //used for animation
     private bool isbacteria2 = false;
@@ -31,9 +33,11 @@ public class AiBacteria : Unit
         // Set random initial rotation
         walkSpeed = 1f;
         splitTime = 20f;
-        health = 3;
+        deathTime = 30f;
+        health = 2;
         splitting = true;
         randomWalk = true;
+        alreadydead = false;
        
 
     
@@ -42,10 +46,11 @@ public class AiBacteria : Unit
     public override void Start()
     {
         base.Start();
-       heading = Random.Range(0, 360);
-       myTransform.eulerAngles = new Vector3(0, heading, 0);
+        heading = Random.Range(0, 360);
+        myTransform.eulerAngles = new Vector3(0, heading, 0);
         StartCoroutine(RandomWalk());
         StartCoroutine(split());
+        StartCoroutine(BacteriaDeath());
 
         if (myTransform.tag == "enemy2")
         {
@@ -82,9 +87,11 @@ public class AiBacteria : Unit
         //StopCoroutine("split");
 
         if (health < 1)
-        { 
+        {
+            alreadydead = true;
             Destroy(myTransform.gameObject);
             GameHud.gamescore += 500;
+            GameHud.activeBacteriaCount-=1;
         }
     }
 
@@ -119,10 +126,45 @@ public class AiBacteria : Unit
 
             yield return new WaitForSeconds(splitTime);
             splitPosition = myTransform.TransformPoint(0, 0, -.2f);
-
             Instantiate(bacteria, splitPosition, Quaternion.Euler(myTransform.eulerAngles.x, myTransform.eulerAngles.y, 0));
+            GameHud.activeBacteriaCount += 1;
         }
         
     }
+
+    public virtual IEnumerator BacteriaDeath()
+    {
+              
+            yield return new WaitForSeconds(deathTime);
+            Destroy(myTransform.gameObject);
+            GameHud.activeBacteriaCount -= 1;
+
+    }
+
+    void OnTriggerEnter(Collider c)
+    {
+        if (c.gameObject.tag == "gradient1")
+        {
+           // Destroy(myTransform.gameObject);
+            walkSpeed = 3f;
+
+        }
+        else
+            walkSpeed = 1f;
+
+
+    }
+
+    void OnTriggerExit(Collider c)
+    {
+        if (c.gameObject.tag == "gradient1")
+        {
+            // Destroy(myTransform.gameObject);
+            walkSpeed = 1f;
+
+        }
+       
+
+    } 
 
 }
