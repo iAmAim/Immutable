@@ -37,6 +37,8 @@ public class BulletScript : MonoBehaviour {
     ParticleAnimator particleAnimator;
     ParticleEmitter particleemitter;
 
+    AiBacteria aibacteria;
+
     //----------------- Variables end ----------------------------------//
 
 
@@ -47,7 +49,7 @@ public class BulletScript : MonoBehaviour {
         Physics.IgnoreLayerCollision(8, 9);
         // Ignore bullet colliding with bullet 
         Physics.IgnoreLayerCollision(8, 8);
-        bulletSpeed = 60;
+        bulletSpeed = 40;
         bulletLife = 4;
         range = 0.5f;
         alreadyhitsomething = false;
@@ -126,8 +128,9 @@ public class BulletScript : MonoBehaviour {
        
              
                 // bacteria takes damage
-               AiBacteria aibacteria = hit.collider.gameObject.GetComponent<AiBacteria>();
+              aibacteria = hit.collider.gameObject.GetComponent<AiBacteria>();
                   aibacteria.takeDamage(); // bacteria takes damage 
+                  
                    Debug.Log("enemy(bacteria) is hit");      
                 
             }

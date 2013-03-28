@@ -24,28 +24,50 @@ public class Crosshair : MonoBehaviour
 
     public string ecoliDescription;
     public string staphDescription;
+    public string streptoDescription;
+    public string spiroDescription;
+    public string bcellDescription;
+    public string neutroDescription;
+    public string bullet1Description;
+    public string bullet2Description;
     string objectTag;
-    
-    public string[] myString = { "blah", "", "" };
+
+    public string[] myString;
     int organism;
     int temp = 0;
 
 
 
-
-
     void Awake()
     {
-        ecoliDescription = "Enemy Name: Ecoli-                                                                       " +
+        myString = new string[9];
+        ecoliDescription = "Bacteria Name: E. coli-                                                                       " +
         "E. coli is a common type of bacteria that can get into food, like beef and vegetables. E. coli is short for the medical term Escherichia coli" +
         ""+
         "" +
-        ""; 
+        "";
 
-        staphDescription = "Staphyloccocus aureus - ";
+        staphDescription = "Bacteria Name: Staphyloccocus aureus - ";
+        streptoDescription = "Bacteria Name: Streptococcus aureus - ";
+        spiroDescription = "Bacteria Name: Spirochetes";
+        bcellDescription = "Cell Name: Bcell";
+        neutroDescription = "Cell Name: Neutrophil";
+        bullet1Description = "Antibody Type: IGd";
+        bullet2Description = "Antibody Type: IGg";
+
         showDescription = false;
         myString[1] = ecoliDescription;
         myString[2] = staphDescription;
+        myString[3] = streptoDescription;
+        myString[4] = spiroDescription;
+        myString[5] = bcellDescription;
+        myString[6] = neutroDescription;
+        myString[7] = bullet1Description;
+        myString[8] = bullet2Description;
+
+        //neutrophil
+        //bullet1
+        //bullet2
 
     }
     void Start()
@@ -112,8 +134,45 @@ public class Crosshair : MonoBehaviour
 
                         break;
                     case "enemy3":
+                    crossColor = Color.red;
+                    InspectOrganism();
+                    temp = 3;
 
                         break;
+
+                    case "enemy4":
+                    crossColor = Color.red;
+                    InspectOrganism();
+                    temp = 4;
+
+                        break;
+
+                    case "tutorial_bcell":
+                    crossColor = Color.green;
+                    InspectOrganism();
+                    temp = 5;
+
+                        break;
+                    case "tutorial_neutrophil":
+                        crossColor = Color.green;
+                        InspectOrganism();
+                        temp = 6;
+
+                        break;
+                    case "tutorial_bullet1":
+                        crossColor = Color.green;
+                        InspectOrganism();
+                        temp = 7;
+
+                        break;
+                    case "tutorial_bullet2":
+                        crossColor = Color.green;
+                        InspectOrganism();
+                        temp = 8;
+
+                        break;
+
+
 
                     default:
                         crossColor = Color.white;
@@ -166,14 +225,8 @@ public class Crosshair : MonoBehaviour
                showDescription = true;
                objectDescription = temp;
                organism = temp;
-               //return objectDescription;
 
            }
-          // else
-           //{
-           //    return objectDesc;
-           //}
-          //return objectDescription;
  
     }
 

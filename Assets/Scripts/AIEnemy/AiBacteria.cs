@@ -24,6 +24,7 @@ public class AiBacteria : Unit
 
     //used for animation
     private bool isbacteria2 = false;
+    private bool isbacteria4 = false;
     
 
    public virtual void Awake()
@@ -55,6 +56,10 @@ public class AiBacteria : Unit
         if (myTransform.tag == "enemy2")
         {
             isbacteria2 = true;
+        }
+        if (myTransform.tag == "enemy4")
+        {
+            isbacteria4 = true;
         }
 
     }
@@ -89,9 +94,8 @@ public class AiBacteria : Unit
         if (health < 1)
         {
             alreadydead = true;
-            Destroy(myTransform.gameObject);
             GameHud.gamescore += 500;
-            GameHud.activeBacteriaCount-=1;
+            DestroyBacteria();
         }
     }
 
@@ -136,8 +140,7 @@ public class AiBacteria : Unit
     {
               
             yield return new WaitForSeconds(deathTime);
-            Destroy(myTransform.gameObject);
-            GameHud.activeBacteriaCount -= 1;
+            DestroyBacteria();
 
     }
 
@@ -165,6 +168,37 @@ public class AiBacteria : Unit
         }
        
 
-    } 
+    }
+ 
 
+    void DestroyBacteria()
+    {
+        Destroy(myTransform.gameObject);
+        GameHud.activeBacteriaCount -= 1;
+
+    
+    }
+
+    // does work!
+    void OnControllerColliderHit(ControllerColliderHit c)
+    {
+        if (c.collider.gameObject.tag == "character2" && isbacteria4)
+        {
+
+            DestroyBacteria();
+            GameHud.gamescore += 500;
+        }
+        
+    }
+
+    // doesnt work
+   /* void OnCollisionEnter(Collider c)
+    {
+        if (c.gameObject.tag == "character2" && isbacteria4)
+        {
+
+            DestroyBacteria();
+            GameHud.gamescore += 500;
+        }
+    }*/
 }

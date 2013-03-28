@@ -12,6 +12,15 @@ public class GameHud : MonoBehaviour {
     GameObject[] allBacteria;
 
     public static int gamescore = 0;
+
+    public Texture2D infectionbar = null;
+    public float changesize = 5f;
+    public Rect infectbarpos;//
+
+
+   // public Texture2D bcellAvatar;
+   // public Rect bcellavatarpos;//
+
 	// Use this for initialization
 
     void Awake()
@@ -24,12 +33,20 @@ public class GameHud : MonoBehaviour {
     }
 	void Start () {
 
-     
 
+        infectbarpos = new Rect(1000, 30, 100, 20);
+       // bcellavatarpos = new Rect(10, 500, 100, 20);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+       
+
+        if (activeBacteriaCount < 0)
+        {
+            activeBacteriaCount = 0;
+        }
 
 
 	}
@@ -40,7 +57,19 @@ public class GameHud : MonoBehaviour {
         displayTime();
         displayPlayerHealth();
         displayInfectionLevel();
-      
+
+        if (infectionbar != null)
+        {
+            infectbarpos.width = activeBacteriaCount * changesize;
+            infectbarpos.height = 15f;
+            GUI.DrawTexture(infectbarpos, infectionbar);
+        }
+
+        // Avatar
+       // GUI.DrawTexture(bcellavatarpos, bcellAvatar);
+        //bcellAvatar.width = 150;
+       // bcellAvatar.height = 150;
+      //  GUI.DrawTexture(bcellavatarpos, bcellAvatar, ScaleMode.ScaleToFit, true, 0);
 
     }
 
@@ -48,6 +77,7 @@ public class GameHud : MonoBehaviour {
     {
         GUI.Label(new Rect(5, 5, 100, 20), "Score " );
         GUI.Label(new Rect(5, 22, 100, 20), gamescore.ToString());
+
     }
 
     void displayTime()
@@ -60,10 +90,11 @@ public class GameHud : MonoBehaviour {
     void displayPlayerHealth()
     {
         GUI.Label(new Rect(5, 50, 100, 20), "Health ");
-        GUI.Label(new Rect(5, 67, 100, 20), UnitPlayer.DisplayHealth().ToString());
+        GUI.Label(new Rect(5, 67, 100, 20), UnitPlayer.health.ToString());
 
-        if (UnitPlayer.DisplayHealth() < 1)
+        if (UnitPlayer.health < 1)
         { //gameover
+            UnitPlayer.health = 0;
             GUI.Label(new Rect(5, 150, 100, 20), "Gameover! ");
         }
     }

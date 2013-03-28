@@ -19,7 +19,7 @@ public class FireBullet : MonoBehaviour {
     private Vector3 launchPosition = new Vector3();
 
     // Add fire rate: lower = faster
-    private float fireRate = 0.15f;
+    private float fireRate = 0.2f;
     private float nextFire = 0;
 
     // Added Friday.test only

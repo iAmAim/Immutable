@@ -9,7 +9,6 @@ public class Unit : MonoBehaviour
     protected Vector3 move = Vector3.zero;
     public float walkSpeed = 2.5f; 
     public float runSpeed = 4f;
-    public float turnSpeed = 90f;
     public float jumpSpeed = 5f;
 
     public bool jumping;
