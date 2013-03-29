@@ -9,6 +9,7 @@ public class Crosshair : MonoBehaviour
 {
     public Texture2D crosshairTexture;
     public Color32  crossColor;
+    public Font myFont;
     Rect crosshairposition;
     Rect descriptionPanel;
    // float size = 32;
@@ -198,6 +199,8 @@ public class Crosshair : MonoBehaviour
         // Draw crosshair on the screen
         GUI.color = crossColor;
         GUI.DrawTexture(crosshairposition, crosshairTexture);
+
+        GUI.skin.font = myFont;
 
         //Show description panel
        if (showDescription )

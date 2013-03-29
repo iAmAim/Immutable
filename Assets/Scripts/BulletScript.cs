@@ -38,7 +38,10 @@ public class BulletScript : MonoBehaviour {
     ParticleAnimator particleAnimator;
     ParticleEmitter particleemitter;
     Vector3 particleForce;
+    int bulletLayer;
+    int layerMask;
 
+   
     AiBacteria aibacteria;
 
     //----------------- Variables end ----------------------------------//
@@ -64,11 +67,18 @@ public class BulletScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        // Check which bullet is fired
+
+        bulletLayer = 8;
+        // Bit shift the index of the bulletLayer to get a bit mask
+        layerMask = 1 << bulletLayer;
+        // This would cast rays only against colliders in bulletLayer.
+        //But instead we want to collide against everything except bulletLayer. The ~ operator does this, it inverts a bitmask.
+        layerMask = ~layerMask;
 
         particleemitter.minSize = .1f;
         particleemitter.minSize = .4f;
 
+        // Check which bullet is fired   
         if (myTransform.tag.Equals("bullet1"))
         {
             isbullet1 = true;
@@ -109,6 +119,7 @@ public class BulletScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        
         //Translate the projectile in the up direction cause bullet travels on  Y axis
         myTransform.Translate(Vector3.up * bulletSpeed * Time.deltaTime);
         
@@ -119,7 +130,7 @@ public class BulletScript : MonoBehaviour {
 
         // if the ray hits something then execute this code.
 
-        if (Physics.Raycast(myTransform.position, myTransform.up, out hit, range) &&
+        if (Physics.Raycast(myTransform.position, myTransform.up, out hit, range, layerMask) &&
             alreadyhitsomething == false)
         {
             particleAnimator.force = particleForce;

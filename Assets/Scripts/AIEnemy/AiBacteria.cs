@@ -8,9 +8,10 @@ using System.Collections;
 public class AiBacteria : Unit
 {
     public float health;
+    public float turnSpeed;
     private Transform myTransform;
     public float timeBeforeDirectionChange; // number of seconds bacteria swims
-    public float maxHeadingChange = 360f; 
+    public float maxHeadingChange = 180; 
     float heading;
     public Vector3 targetRotation;
 
@@ -25,6 +26,8 @@ public class AiBacteria : Unit
     //used for animation
     private bool isbacteria2 = false;
     private bool isbacteria3 = false;
+    private string gradient;
+    private bool ingradient2 = false;
     
 
    public virtual void Awake()
@@ -33,13 +36,36 @@ public class AiBacteria : Unit
         timeBeforeDirectionChange = 1f; 
         // Set random initial rotation
         walkSpeed = 1f;
-        splitTime = 20f;
         deathTime = 30f;
         health = 2;
+        turnSpeed = 2;
         splitting = true;
         randomWalk = true;
         alreadydead = false;
-       
+        if (myTransform.tag == "enemy2")
+        {
+            isbacteria2 = true;
+        }
+        if (myTransform.tag == "enemy3")
+        {
+            splitTime = 10f;
+            isbacteria3 = true;
+        }
+        else
+        {
+            splitTime = 15f;
+        }
+
+        if (GameManager.level == 0)
+        {
+            myTransform.parent = GameObject.FindGameObjectWithTag("level0_activator").transform;
+        }
+        else if (GameManager.level == 1)
+        {
+            myTransform.parent = GameObject.FindGameObjectWithTag("level1_enemyspawner").transform;
+        }
+
+
 
     
     }
@@ -52,16 +78,6 @@ public class AiBacteria : Unit
         StartCoroutine(RandomWalk());
         StartCoroutine(split());
         StartCoroutine(BacteriaDeath());
-
-        if (myTransform.tag == "enemy2")
-        {
-            isbacteria2 = true;
-        }
-        if (myTransform.tag == "enemy3")
-        {
-            isbacteria3 = true;
-        }
-
     }
 
     public override void Update()
@@ -69,7 +85,7 @@ public class AiBacteria : Unit
         base.Update();
 
         //Rotate
-        myTransform.eulerAngles = Vector3.Slerp(myTransform.eulerAngles, targetRotation, Time.deltaTime * timeBeforeDirectionChange);
+        myTransform.eulerAngles = Vector3.Slerp(myTransform.eulerAngles, targetRotation, Time.deltaTime * turnSpeed); 
        //Move
         move = myTransform.TransformDirection(Vector3.forward);
 
@@ -131,7 +147,7 @@ public class AiBacteria : Unit
             yield return new WaitForSeconds(splitTime);
             splitPosition = myTransform.TransformPoint(0, 0, -.2f);
             Instantiate(bacteria, splitPosition, Quaternion.Euler(myTransform.eulerAngles.x, myTransform.eulerAngles.y, 0));
-            GameManager.activeBacteriaCount += 1;
+            //GameManager.activeBacteriaCount += 1;
         }
         
     }
@@ -146,27 +162,57 @@ public class AiBacteria : Unit
 
     void OnTriggerEnter(Collider c)
     {
-        if (c.gameObject.tag == "gradient1")
+        gradient = c.gameObject.tag;
+
+        switch (gradient)
         {
-           // Destroy(myTransform.gameObject);
-            walkSpeed = 3f;
+            case "gradient1":
 
+                //params: speed, swimtime,anglechange   
+                ingradient2 = false;
+                changeStats(1.5f, 1.5f, 120);
+                break;
+
+            case "gradient2":
+                ingradient2 = true;
+                changeStats(2.25f, 2f, 90);
+                break;
+
+            case "gradient3":
+                 
+                changeStats(3, 2.5f, 60);
+                break;  
+
+            default:
+                changeStats(1, 1f, 180);
+                break;
         }
-        else
-            walkSpeed = 1f;
 
+    }
 
+    // changes to the Bacteria statistics
+    void changeStats(float speed, float swimtime, float angleChange)
+    {
+        walkSpeed = speed;
+        timeBeforeDirectionChange = swimtime;
+        maxHeadingChange = angleChange;
     }
 
     void OnTriggerExit(Collider c)
     {
         if (c.gameObject.tag == "gradient1")
         {
-            // Destroy(myTransform.gameObject);
-            walkSpeed = 1f;
+            if (ingradient2)
+            {
+                changeStats(2.25f, 2f, 90);
+            }
+            else
+            {
+                ingradient2 = false;
+                changeStats(1f, 1f, 180);
+            }
 
-        }
-       
+        }   
 
     }
  
@@ -174,7 +220,7 @@ public class AiBacteria : Unit
     void DestroyBacteria()
     {
         Destroy(myTransform.gameObject);
-        GameManager.activeBacteriaCount -= 1;
+       // GameManager.activeBacteriaCount -= 1;
 
     
     }

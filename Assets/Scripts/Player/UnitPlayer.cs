@@ -84,11 +84,10 @@ public class UnitPlayer : Unit {
 
                transform.animation.CrossFade("back", 1.5f);
            }
-           else
-           {
+           
 
                transform.animation.CrossFade("idle", 1.5f);
-           }
+           
        }
        else
        {

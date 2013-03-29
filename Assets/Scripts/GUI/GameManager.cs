@@ -32,6 +32,8 @@ public class GameManager: MonoBehaviour {
     GameObject level1objects;
     GameObject tutorialLevelobjects;
 
+    public Font MyFont;
+
 	// Use this for initialization
 
     void Awake()
@@ -56,6 +58,7 @@ public class GameManager: MonoBehaviour {
 
         
         BacteriaCount();
+        print("BacteriaCount: " + activeBacteriaCount);
 
         if (activeBacteriaCount < 0)
         {
@@ -108,11 +111,13 @@ public class GameManager: MonoBehaviour {
 
     void displayScore()
     {
+        GUI.skin.font = MyFont;
         GUI.Label(new Rect(5, 5, 100, 20), "Score " );
         GUI.Label(new Rect(5, 22, 100, 20), gamescore.ToString());
+        
 
     }
-
+    //delete this function
     void displayTime()
     {
         //GUI.Label(new Rect(Screen.width / 2, 5, 50, 50), "" + Time.timeSinceLevelLoad);
@@ -125,7 +130,7 @@ public class GameManager: MonoBehaviour {
         GUI.Label(new Rect(5, 50, 100, 20), "Health ");
         GUI.Label(new Rect(5, 67, 100, 20), UnitPlayer.health.ToString());
 
-        if (UnitPlayer.health < 1)
+        if (UnitPlayer.health < 1 || activeBacteriaCount >30)
         { //gameover
             UnitPlayer.health = 0;
             GUI.Label(new Rect(5, 150, 100, 20), "Gameover! ");
@@ -178,6 +183,7 @@ public class GameManager: MonoBehaviour {
     {
         spawner.transform.GetChild(i).gameObject.SetActive(activate);
     }
+     spawner.transform.gameObject.SetActive(activate);
 
 
     }
@@ -186,6 +192,7 @@ public class GameManager: MonoBehaviour {
     //Keeps track of Bacteria count for determining infection level
     void BacteriaCount()
     {
+       
         activeBacteriaCount = GameObject.FindGameObjectsWithTag("enemy1").Length
         + GameObject.FindGameObjectsWithTag("enemy2").Length
         + GameObject.FindGameObjectsWithTag("enemy3").Length

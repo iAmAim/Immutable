@@ -9,12 +9,12 @@ using System.Collections;
 public class FiniteStateAI1 : AiBacteria {
 
     Transform thisTransform;
-    float distance;
+    float distanceToPlayer;
     Transform target;
-    float lookAtDistance = 15;
+    float chaseDistance = 15;
     float rotationspeed = 15;
     public State state;
-    public float attackrange = 2;
+    public float attackrange = 7;
     Vector3 directionheading;
     GameObject playerObj;
 
@@ -72,7 +72,7 @@ public class FiniteStateAI1 : AiBacteria {
         NewHeadingRoutine();
         //  distance = Vector3.Distance(target.position, thisTransform.position);
 
-        if (distance < lookAtDistance)
+        if (distanceToPlayer < chaseDistance)
           {
               playernotinrange = false;
               randomWalk = false;
@@ -93,7 +93,7 @@ public class FiniteStateAI1 : AiBacteria {
   {
 
       base.Update();
-     distance = Vector3.Distance(target.position, thisTransform.position);
+     distanceToPlayer = Vector3.Distance(target.position, thisTransform.position);
 
   }
 
@@ -111,7 +111,7 @@ public class FiniteStateAI1 : AiBacteria {
       {
           Chase();
 
-          if (distance > lookAtDistance ||  !playerObj.activeInHierarchy)
+          if (distanceToPlayer > chaseDistance ||  !playerObj.activeInHierarchy)
           {
               chasing = false;
               running = false;
@@ -155,7 +155,7 @@ public class FiniteStateAI1 : AiBacteria {
          // GameHud.playerhealth--;
           UnitPlayer.takeDamage();
           //Debug.Log("I bite you. :p");
-          Debug.Log("Distance :" + distance);
+          Debug.Log("Distance :" + distanceToPlayer);
          
       }
   }
