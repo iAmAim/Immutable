@@ -10,6 +10,7 @@ public class FireBullet : MonoBehaviour {
     //----------------- Variables start ----------------------------------//
     public GameObject bullet1;
     public GameObject bullet2;
+    public GameObject bullet3;
     private GameObject bulletLoaded;
 
     // Quick reference
@@ -90,6 +91,10 @@ public class FireBullet : MonoBehaviour {
         if (Input.GetKeyDown("2"))
         {
             bulletLoaded = bullet2;
+        }
+        if (Input.GetKeyDown("3"))
+        {
+            bulletLoaded = bullet3;
         }
     }
 }

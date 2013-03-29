@@ -105,6 +105,15 @@ public class UnitPlayer : Unit {
 
          }
 
+         if (c.gameObject.tag == "level1")
+         {
+             GameManager.level = 1;
+             transform.position = GameObject.FindGameObjectWithTag("Spawnpoint_level1").transform.position;
+
+             GameManager.startTime = Time.time;
+         
+             }
+
 
      } 
 }

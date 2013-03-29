@@ -24,7 +24,7 @@ public class AiBacteria : Unit
 
     //used for animation
     private bool isbacteria2 = false;
-    private bool isbacteria4 = false;
+    private bool isbacteria3 = false;
     
 
    public virtual void Awake()
@@ -57,9 +57,9 @@ public class AiBacteria : Unit
         {
             isbacteria2 = true;
         }
-        if (myTransform.tag == "enemy4")
+        if (myTransform.tag == "enemy3")
         {
-            isbacteria4 = true;
+            isbacteria3 = true;
         }
 
     }
@@ -94,7 +94,7 @@ public class AiBacteria : Unit
         if (health < 1)
         {
             alreadydead = true;
-            GameHud.gamescore += 500;
+            GameManager.gamescore += 500;
             DestroyBacteria();
         }
     }
@@ -131,7 +131,7 @@ public class AiBacteria : Unit
             yield return new WaitForSeconds(splitTime);
             splitPosition = myTransform.TransformPoint(0, 0, -.2f);
             Instantiate(bacteria, splitPosition, Quaternion.Euler(myTransform.eulerAngles.x, myTransform.eulerAngles.y, 0));
-            GameHud.activeBacteriaCount += 1;
+            GameManager.activeBacteriaCount += 1;
         }
         
     }
@@ -174,7 +174,7 @@ public class AiBacteria : Unit
     void DestroyBacteria()
     {
         Destroy(myTransform.gameObject);
-        GameHud.activeBacteriaCount -= 1;
+        GameManager.activeBacteriaCount -= 1;
 
     
     }
@@ -182,11 +182,11 @@ public class AiBacteria : Unit
     // does work!
     void OnControllerColliderHit(ControllerColliderHit c)
     {
-        if (c.collider.gameObject.tag == "character2" && isbacteria4)
+        if (c.collider.gameObject.tag == "character2" && isbacteria3)
         {
 
             DestroyBacteria();
-            GameHud.gamescore += 500;
+            GameManager.gamescore += 500;
         }
         
     }

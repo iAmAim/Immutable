@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AnimateEcolli.cs" />
+     <Compile Include="Assets\EnemySpawner.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\AiBacteria.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\MoveTowardsTargetTestAI.cs" />
      <Compile Include="Assets\Scripts\AIEnemy\ScriptsTest\AIBridges.cs" />
@@ -58,7 +59,7 @@
      <Compile Include="Assets\Scripts\Crosshair.cs" />
      <Compile Include="Assets\Scripts\FireBullet.cs" />
      <Compile Include="Assets\Scripts\FirstPersonCameraSettings.cs" />
-     <Compile Include="Assets\Scripts\GUI\GameHud.cs" />
+     <Compile Include="Assets\Scripts\GUI\GameManager.cs" />
      <Compile Include="Assets\Scripts\GUI\MeshParticleRenderer.cs" />
      <Compile Include="Assets\Scripts\Player\Unit.cs" />
      <Compile Include="Assets\Scripts\Player\UnitPlayer.cs" />

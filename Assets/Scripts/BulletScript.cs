@@ -32,10 +32,12 @@ public class BulletScript : MonoBehaviour {
     private float bulletLife;
     private bool isbullet1;
     private bool isbullet2;
+    private bool isbullet3;
 
     public GameObject bulletexplosion;
     ParticleAnimator particleAnimator;
     ParticleEmitter particleemitter;
+    Vector3 particleForce;
 
     AiBacteria aibacteria;
 
@@ -57,6 +59,7 @@ public class BulletScript : MonoBehaviour {
         isbullet2 = false;
         particleAnimator = bulletexplosion.GetComponent<ParticleAnimator>();
         particleemitter = bulletexplosion.GetComponent<ParticleEmitter>();
+        particleForce = new Vector3(0, 0, 0);
     }
 
 	// Use this for initialization
@@ -78,14 +81,23 @@ public class BulletScript : MonoBehaviour {
         }
         else
             if (myTransform.tag.Equals("bullet2"))
-         {
+            {
                 isbullet2 = true;
                 float rr = .59f;
                 float gg = .57f;
                 float bb = .9f;
                 float aa = .5f;
                 changeBulletExplosionColor(rr, gg, bb, aa);
-          }
+            }
+            else
+            {
+                isbullet3 = true;
+                float rr = .1f;
+                float gg = .9f;
+                float bb = .1f;
+                float aa = .5f;
+                changeBulletExplosionColor(rr, gg, bb, aa);
+            }
           
         //assign to myTransform of whatever the script is attached to (attached to Bullet) This saves Transform component for caching 
      
@@ -110,7 +122,7 @@ public class BulletScript : MonoBehaviour {
         if (Physics.Raycast(myTransform.position, myTransform.up, out hit, range) &&
             alreadyhitsomething == false)
         {
-
+            particleAnimator.force = particleForce;
 
             if (hit.transform.tag == "enemy1" && isbullet1)
             {
@@ -149,12 +161,35 @@ public class BulletScript : MonoBehaviour {
 
                 if (aibacteria.alreadydead)
                 {
-                   // particleemitter.minSize = .4f;
-                   // particleemitter.minSize = .8f; 
-                    particleAnimator.force = new Vector3(0, 5f, 0);
+                    // particleemitter.minSize = .4f;
+                    // particleemitter.minSize = .8f; 
+                    particleAnimator.force = new Vector3(0, 5, 0);
                     Instantiate(bulletexplosion, hit.point, Quaternion.identity);
                 }
+              
 
+
+            }
+            else if (hit.transform.tag == "enemy4" && isbullet3)
+            {
+
+                alreadyhitsomething = true;
+                bulletSpeed = 0;
+                myTransform.collider.isTrigger = true;
+                myTransform.parent = hit.transform;
+
+                // bacteria takes damage
+                AiBacteria aibacteria = hit.collider.gameObject.GetComponent<AiBacteria>();
+                aibacteria.takeDamage(); // bacteria takes damage 
+                Debug.Log("enemy(bacteria) is hit");
+
+                if (aibacteria.alreadydead)
+                {
+                    // particleemitter.minSize = .4f;
+                    // particleemitter.minSize = .8f; 
+                    particleAnimator.force = new Vector3(0, 5, 0);
+                    Instantiate(bulletexplosion, hit.point, Quaternion.identity);
+                }
             }
         
 
@@ -198,6 +233,11 @@ public class BulletScript : MonoBehaviour {
             else if (isbullet2)
             {
                 r -= .1f;
+            }
+            else
+            {
+                b += .1f;
+                r += .1f;
             }
             i++;
         }
