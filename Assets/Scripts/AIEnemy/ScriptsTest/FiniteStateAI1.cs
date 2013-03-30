@@ -10,13 +10,15 @@ public class FiniteStateAI1 : AiBacteria {
 
     Transform thisTransform;
     float distanceToPlayer;
-    Transform target;
     float chaseDistance = 15;
     float rotationspeed = 15;
     public State state;
     public float attackrange = 7;
     Vector3 directionheading;
-    GameObject playerObj;
+
+     public GameObject Target;
+     public GameObject char1;
+     public GameObject char2;
 
 
     public enum State
@@ -28,12 +30,8 @@ public class FiniteStateAI1 : AiBacteria {
     public override void Awake()
     {
         base.Awake();
-        playerObj = GameObject.FindGameObjectWithTag("character2");
-        target = playerObj.transform;
-        state = State.RandomWalk;
-        StartCoroutine(StateMachine());
-
-        
+        distanceToPlayer = 1000;
+    
     }
 
 
@@ -41,7 +39,17 @@ public class FiniteStateAI1 : AiBacteria {
     {
         base.Start();
         thisTransform = transform;
-        
+        state = State.RandomWalk;
+        StartCoroutine(StateMachine());
+        char1 = GameObject.FindGameObjectWithTag("Player");
+        char2 = GameObject.FindGameObjectWithTag("character2");
+        if (char1 == null)
+        {
+            Target = char2;
+        }
+        else
+            Target = null;
+     
     }
 
     IEnumerator StateMachine()
@@ -56,7 +64,6 @@ public class FiniteStateAI1 : AiBacteria {
   public override IEnumerator RandomWalk()
   {
   
-      
      // print("random walking...");
      //////yield return null;
 
@@ -68,15 +75,19 @@ public class FiniteStateAI1 : AiBacteria {
 
       while (playernotinrange)
       {
-          
+           
         NewHeadingRoutine();
         //  distance = Vector3.Distance(target.position, thisTransform.position);
 
-        if (distanceToPlayer < chaseDistance)
-          {
-              playernotinrange = false;
-              randomWalk = false;
+        if (char2 != null) 
+       {
+            if (distanceToPlayer < chaseDistance)
+            {
+                playernotinrange = false;
+                randomWalk = false;
           }
+       }
+        
 
 
          yield return new WaitForSeconds(timeBeforeDirectionChange);
@@ -93,7 +104,20 @@ public class FiniteStateAI1 : AiBacteria {
   {
 
       base.Update();
-     distanceToPlayer = Vector3.Distance(target.position, thisTransform.position);
+
+      char2 = GameObject.FindGameObjectWithTag("character2");
+     
+      // if target is active
+     //if (Target.activeInHierarchy)
+     // {
+      if (char2 != null)
+      {
+          distanceToPlayer = Vector3.Distance(Target.transform.position, thisTransform.position);
+      }
+      else
+          distanceToPlayer = 1000f; 
+     // }
+
 
   }
 
@@ -111,7 +135,7 @@ public class FiniteStateAI1 : AiBacteria {
       {
           Chase();
 
-          if (distanceToPlayer > chaseDistance ||  !playerObj.activeInHierarchy)
+          if (distanceToPlayer > chaseDistance || !Target.activeInHierarchy)
           {
               chasing = false;
               running = false;
@@ -129,7 +153,7 @@ public class FiniteStateAI1 : AiBacteria {
 
   public void Chase()
   {
-      directionheading = target.position - transform.position;
+      directionheading = Target.transform.position - transform.position;
       directionheading.y = 0;
 
       /*if (direction.magnitude < 0.1)
@@ -145,7 +169,7 @@ public class FiniteStateAI1 : AiBacteria {
 
 
       ////// test distance..
-      float ourdistance = Vector3.Distance(target.position, thisTransform.position);
+      float ourdistance = Vector3.Distance(Target.transform.position, thisTransform.position);
 
       // attack player if distance is close enough
       if (ourdistance <= attackrange)

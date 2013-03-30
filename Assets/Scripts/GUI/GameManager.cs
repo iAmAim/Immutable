@@ -33,6 +33,8 @@ public class GameManager: MonoBehaviour {
     GameObject tutorialLevelobjects;
 
     public Font MyFont;
+    public GUIStyle scoreGuiStyle;
+    string text;
 
 	// Use this for initialization
 
@@ -58,7 +60,7 @@ public class GameManager: MonoBehaviour {
 
         
         BacteriaCount();
-        print("BacteriaCount: " + activeBacteriaCount);
+      //  print("BacteriaCount: " + activeBacteriaCount);
 
         if (activeBacteriaCount < 0)
         {
@@ -112,8 +114,8 @@ public class GameManager: MonoBehaviour {
     void displayScore()
     {
         GUI.skin.font = MyFont;
-        GUI.Label(new Rect(5, 5, 100, 20), "Score " );
-        GUI.Label(new Rect(5, 22, 100, 20), gamescore.ToString());
+        GUI.Label(new Rect(5, 5, 100, 20), "Score: " + gamescore.ToString(), scoreGuiStyle);
+       // GUI.Label(new Rect(80, 5, 100, 20), gamescore.ToString(), scoreGuiStyle);
         
 
     }
@@ -127,13 +129,17 @@ public class GameManager: MonoBehaviour {
 
     void displayPlayerHealth()
     {
-        GUI.Label(new Rect(5, 50, 100, 20), "Health ");
+        
+        GUI.Label(new Rect(5, 50, 100, 20), "Health ", scoreGuiStyle);
         GUI.Label(new Rect(5, 67, 100, 20), UnitPlayer.health.ToString());
 
         if (UnitPlayer.health < 1 || activeBacteriaCount >30)
         { //gameover
             UnitPlayer.health = 0;
             GUI.Label(new Rect(5, 150, 100, 20), "Gameover! ");
+            Screen.lockCursor = false;
+            Application.LoadLevel(2);
+            UnitPlayer.health = 100;
         }
     }
 
@@ -155,8 +161,8 @@ public class GameManager: MonoBehaviour {
     remainingSeconds = countDownSeconds - guiTime;
  
  
-    if (remainingSeconds == 60) {
-        print ("One Minute Left");
+    if (remainingSeconds == 59) {
+        print ("59 Seconds..");
     }
     if (remainingSeconds == 0) {
         print ("Time is Over");
@@ -167,8 +173,8 @@ public class GameManager: MonoBehaviour {
     displaySeconds = roundedRestSeconds % 60;
     displayMinutes = roundedRestSeconds / 60; 
  
-   string text = string.Format ("{0:00}:{1:00}", displayMinutes, displaySeconds);
-   GUI.Label(new Rect(Screen.width / 2, 5, 50, 50), text);
+     text = string.Format ("{0:00}:{1:00}", displayMinutes, displaySeconds);
+    GUI.Label(new Rect(Screen.width / 2, 5, 50, 50), text);
 
         
     }
@@ -177,12 +183,12 @@ public class GameManager: MonoBehaviour {
     void ActivateGameObjects(GameObject spawner, bool activate)
     {
 
-     int i;
-     for (i = 0; i < spawner.transform.childCount; ++i)
+     //int i;
+     //for (i = 0; i < spawner.transform.childCount; ++i)
 
-    {
-        spawner.transform.GetChild(i).gameObject.SetActive(activate);
-    }
+   // {
+      //  spawner.transform.GetChild(i).gameObject.SetActive(activate);
+   // }
      spawner.transform.gameObject.SetActive(activate);
 
 

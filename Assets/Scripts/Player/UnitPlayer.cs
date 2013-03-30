@@ -5,7 +5,7 @@ public class UnitPlayer : Unit {
 
 	// Use this for initialization
 
-    public  static float health = 1000f;
+    public  static float health = 100f;
     public float turnSpeed = 10f;
     public override void Start () {
 

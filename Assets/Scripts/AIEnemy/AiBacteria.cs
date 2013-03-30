@@ -5,6 +5,8 @@ using System.Collections;
 /// Creates Ai behaviour(random walk)  for a CharacterController.
 /// </summary>
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Animation))]
+[RequireComponent(typeof(AiBacteria))]
 public class AiBacteria : Unit
 {
     public float health;
@@ -78,6 +80,7 @@ public class AiBacteria : Unit
         StartCoroutine(RandomWalk());
         StartCoroutine(split());
         StartCoroutine(BacteriaDeath());
+    
     }
 
     public override void Update()
@@ -146,8 +149,10 @@ public class AiBacteria : Unit
 
             yield return new WaitForSeconds(splitTime);
             splitPosition = myTransform.TransformPoint(0, 0, -.2f);
+            bacteria.GetComponent<Animation>().enabled = true;
+            bacteria.GetComponent<AiBacteria>().enabled = true;
             Instantiate(bacteria, splitPosition, Quaternion.Euler(myTransform.eulerAngles.x, myTransform.eulerAngles.y, 0));
-            //GameManager.activeBacteriaCount += 1;
+            //GameManager.activeBacteriaCount += 1; 
         }
         
     }
@@ -180,7 +185,7 @@ public class AiBacteria : Unit
 
             case "gradient3":
                  
-                changeStats(3, 2.5f, 60);
+                changeStats(3, 1f, 180);
                 break;  
 
             default:

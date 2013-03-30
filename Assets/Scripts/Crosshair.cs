@@ -31,6 +31,7 @@ public class Crosshair : MonoBehaviour
     public string neutroDescription;
     public string bullet1Description;
     public string bullet2Description;
+    public string bullet3Description;
     string objectTag;
 
     public string[] myString;
@@ -41,7 +42,7 @@ public class Crosshair : MonoBehaviour
 
     void Awake()
     {
-        myString = new string[9];
+        myString = new string[10];
         ecoliDescription = "Bacteria Name: E. coli-                                                                       " +
         "E. coli is a common type of bacteria that can get into food, like beef and vegetables. E. coli is short for the medical term Escherichia coli" +
         ""+
@@ -53,8 +54,9 @@ public class Crosshair : MonoBehaviour
         spiroDescription = "Bacteria Name: Spirochetes";
         bcellDescription = "Cell Name: Bcell";
         neutroDescription = "Cell Name: Neutrophil";
-        bullet1Description = "Antibody Type: IGd";
-        bullet2Description = "Antibody Type: IGg";
+        bullet1Description = "Antibody Type: IgD";
+        bullet2Description = "Antibody Type: IgG";
+        bullet3Description = "Antibody Type: IgM";
 
         showDescription = false;
         myString[1] = ecoliDescription;
@@ -65,6 +67,7 @@ public class Crosshair : MonoBehaviour
         myString[6] = neutroDescription;
         myString[7] = bullet1Description;
         myString[8] = bullet2Description;
+        myString[9] = bullet3Description;
 
         //neutrophil
         //bullet1
@@ -119,7 +122,7 @@ public class Crosshair : MonoBehaviour
                     case "enemy1": 
                      Debug.Log("ecoli spotted");
                      crossColor = Color.red;
-                     InspectOrganism();
+                     InspectObject();
                      temp = 1;
                   
              
@@ -128,7 +131,7 @@ public class Crosshair : MonoBehaviour
                     case "enemy2":
                      Debug.Log("staphylococcus spotted");
                      crossColor = Color.red;
-                    InspectOrganism();
+                    InspectObject();
                      temp = 2;
                      
 
@@ -136,39 +139,45 @@ public class Crosshair : MonoBehaviour
                         break;
                     case "enemy3":
                     crossColor = Color.red;
-                    InspectOrganism();
+                    InspectObject();
                     temp = 3;
 
                         break;
 
                     case "enemy4":
                     crossColor = Color.red;
-                    InspectOrganism();
+                    InspectObject();
                     temp = 4;
 
                         break;
 
                     case "tutorial_bcell":
                     crossColor = Color.green;
-                    InspectOrganism();
+                    InspectObject();
                     temp = 5;
 
                         break;
                     case "tutorial_neutrophil":
                         crossColor = Color.green;
-                        InspectOrganism();
+                        InspectObject();
                         temp = 6;
 
                         break;
                     case "tutorial_bullet1":
                         crossColor = Color.green;
-                        InspectOrganism();
+                        InspectObject();
                         temp = 7;
 
                         break;
                     case "tutorial_bullet2":
                         crossColor = Color.green;
-                        InspectOrganism();
+                        InspectObject();
+                        temp = 8;
+
+                        break;
+                    case "tutorial_bullet3":
+                        crossColor = Color.green;
+                        InspectObject();
                         temp = 8;
 
                         break;
@@ -219,7 +228,7 @@ public class Crosshair : MonoBehaviour
 
     }
 
-  void InspectOrganism()
+  void InspectObject()
     {
         int objectDescription = 0;
         showDescription = true;

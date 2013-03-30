@@ -37,7 +37,7 @@ public class EnemySpawner : MonoBehaviour {
 
         // spawn more enemies if enemy count is less than 4
     
-        if (GameManager.activeBacteriaCount < 20 )
+        if (GameManager.activeBacteriaCount < 6)
         {
             randomBacteria = Random.Range(0, 4);
             randomRange();

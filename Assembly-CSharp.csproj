@@ -65,6 +65,8 @@
      <Compile Include="Assets\Scripts\Player\UnitPlayer.cs" />
      <Compile Include="Assets\Scripts\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\StickyObject.cs" />
+     <Compile Include="Assets\Scripts\a_Menu\GameOver.cs" />
+     <Compile Include="Assets\Scripts\a_Menu\Menu.cs" />
      <Compile Include="Assets\Scripts\bulletOriginRayCast.cs" />
      <Compile Include="Assets\Scripts\rotateBulletModel.cs" />
      <Compile Include="Assets\animateStaph.cs" />
