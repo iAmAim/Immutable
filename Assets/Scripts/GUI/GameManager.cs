@@ -35,8 +35,8 @@ public class GameManager: MonoBehaviour {
 
     public Font MyFont;
     public GUIStyle scoreGuiStyle;
-    string text;
-    GameObject win;
+    private string timeText;
+    GameObject winScreen;
  
 
 	// Use this for initialization
@@ -44,9 +44,9 @@ public class GameManager: MonoBehaviour {
     void Awake()
     {
         
-        win= GameObject.FindGameObjectWithTag("win");
-        win.transform.parent = Camera.main.transform;
-        win.SetActive(false);
+        winScreen= GameObject.FindGameObjectWithTag("win");
+        winScreen.transform.parent = Camera.main.transform;
+        winScreen.SetActive(false);
         level = 0;
         currentlevel = 0;
 
@@ -96,7 +96,7 @@ public class GameManager: MonoBehaviour {
                 activeBacteriaCount = 0;
                 Screen.lockCursor = false;
                 Camera.main.transform.position = level1objects.transform.position + new Vector3(0,10,0);
-                win.SetActive(true);
+                winScreen.SetActive(true);
                 roundedRestSeconds = (int)countDownSeconds;
                 ActivateLevelActivator(level1objects, false);
                
@@ -117,7 +117,7 @@ public class GameManager: MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Escape) )
         {
-            if (win.activeSelf == false)
+            if (winScreen.activeSelf == false)
             {
                 Screen.lockCursor = true;
             }
@@ -175,33 +175,33 @@ public class GameManager: MonoBehaviour {
     void displayPlayerHealth()
     {
         
-        GUI.Label(new Rect(5, 50, 100, 20), "Health ", scoreGuiStyle);
-        GUI.Label(new Rect(5, 67, 100, 20), UnitPlayer.health.ToString());
+        GUI.Label(new Rect(5, 50, 100, 20), "Health: "+ UnitPlayer.health.ToString(), scoreGuiStyle);
    
     }
 
     void displayInfectionLevel()
     {
-        
-        GUI.Label(new Rect(1000, 5, 100, 20), "Infection Level: " );
-        GUI.Label(new Rect(1100, 5, 100, 20), activeBacteriaCount.ToString());
+
+        GUI.Label(new Rect(1000, -5, 100, 20), "Infection Level: " + activeBacteriaCount.ToString(), scoreGuiStyle);
     
     }
 
 
     void _DisplayTime()
     {
+        if (!winScreen.activeSelf)
+        {
 
-        guiTime = Time.time - startTime;
-        remainingSeconds = countDownSeconds - guiTime;
- 
-    roundedRestSeconds = Mathf.CeilToInt(remainingSeconds);
-    displaySeconds = roundedRestSeconds % 60;
-    displayMinutes = roundedRestSeconds / 60; 
- 
-     text = string.Format ("{0:00}:{1:00}", displayMinutes, displaySeconds);
-    GUI.Label(new Rect(Screen.width / 2, 5, 50, 50), text);
+            guiTime = Time.time - startTime;
+            remainingSeconds = countDownSeconds - guiTime;
 
+            roundedRestSeconds = Mathf.CeilToInt(remainingSeconds);
+            displaySeconds = roundedRestSeconds % 60;
+            displayMinutes = roundedRestSeconds / 60;
+
+            timeText = string.Format("{0:00}:{1:00}", displayMinutes, displaySeconds);
+            GUI.Label(new Rect(Screen.width / 2, 5, 50, 50), timeText, scoreGuiStyle);
+        }
         
     }
 

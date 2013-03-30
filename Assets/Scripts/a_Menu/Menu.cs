@@ -26,6 +26,10 @@ public class Menu : MonoBehaviour {
         {
             Application.LoadLevel(GameManager.level+1);
         }
+        else if (transform.tag == "mainmenu")
+        {
+            Application.LoadLevel(0);
+        }
         else
         {
             Application.LoadLevel(1);
