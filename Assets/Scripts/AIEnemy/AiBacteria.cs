@@ -185,7 +185,7 @@ public class AiBacteria : Unit
 
             case "gradient3":
                  
-                changeStats(3, 1f, 180);
+                changeStats(3, .5f, 180);
                 break;  
 
             default:

@@ -22,10 +22,11 @@ public class GameManager: MonoBehaviour {
     // Countdown Timer variables
     public static float startTime;
     private float remainingSeconds;
+    public float guiTime;
     private int roundedRestSeconds;
     private int displaySeconds;
     private int displayMinutes;
-    float countDownSeconds = 60;
+    float countDownSeconds = 5;
    // public Texture2D bcellAvatar;
    // public Rect bcellavatarpos;//
     public Transform  myTransform;
@@ -35,13 +36,17 @@ public class GameManager: MonoBehaviour {
     public Font MyFont;
     public GUIStyle scoreGuiStyle;
     string text;
+    GameObject win;
+ 
 
 	// Use this for initialization
 
     void Awake()
     {
-       
-
+        
+        win= GameObject.FindGameObjectWithTag("win");
+        win.transform.parent = Camera.main.transform;
+        win.SetActive(false);
         level = 0;
         currentlevel = 0;
 
@@ -58,7 +63,7 @@ public class GameManager: MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        
+        currentlevel = level;
         BacteriaCount();
       //  print("BacteriaCount: " + activeBacteriaCount);
 
@@ -67,26 +72,64 @@ public class GameManager: MonoBehaviour {
             activeBacteriaCount = 0;
         }
 
-        if (level == 0)
-        {
-            
-            ActivateGameObjects(level1objects,false);
-            ActivateGameObjects(tutorialLevelobjects, true);
-        }
-        else if (level == 1)
+        if (currentlevel == 0)
         {
             currentlevel = level;
-            ActivateGameObjects(tutorialLevelobjects, false);
-            ActivateGameObjects(level1objects, true);
+            ActivateLevelActivator(level1objects,false);
+            ActivateLevelActivator(tutorialLevelobjects, true);
+            roundedRestSeconds = (int)countDownSeconds;
+            print(roundedRestSeconds);
+
+        }
+        else if (currentlevel == 1)
+        {
+            currentlevel = level;
+            ActivateLevelActivator(tutorialLevelobjects, false);
+            ActivateLevelActivator(level1objects, true);
+            //// works.
+            print(roundedRestSeconds); //remainingseconds
+
+            // Victory
+            if (roundedRestSeconds < 1 && (activeBacteriaCount<= 30 || activeBacteriaCount < 1) && UnitPlayer.health > 1)
+            {
+                UnitPlayer.health = 100;
+                activeBacteriaCount = 0;
+                Screen.lockCursor = false;
+                Camera.main.transform.position = level1objects.transform.position + new Vector3(0,10,0);
+                win.SetActive(true);
+                roundedRestSeconds = (int)countDownSeconds;
+                ActivateLevelActivator(level1objects, false);
+               
+            }
+            // Gameover
+            else if (roundedRestSeconds < 1 && (UnitPlayer.health < 1 || activeBacteriaCount > 30) )
+            { 
+                UnitPlayer.health = 0;
+                GUI.Label(new Rect(5, 150, 100, 20), "Gameover! ");
+                Screen.lockCursor = false;
+                //Application.LoadLevel(2);
+                UnitPlayer.health = 100;
+            }
+
+            
             
         }
 
-	}
+        if (Input.GetKeyDown(KeyCode.Escape) )
+        {
+            if (win.activeSelf == false)
+            {
+                Screen.lockCursor = true;
+            }
+        }
+
+
+    }
 
     void OnGUI()
     {
         displayScore();
-        displayTime();
+        //displayTime();
         displayPlayerHealth();
         displayInfectionLevel();
 
@@ -119,28 +162,22 @@ public class GameManager: MonoBehaviour {
         
 
     }
-    //delete this function
+    /*delete this function
     void displayTime()
     {
+        guiTime = Time.time - startTime;
+        remainingSeconds = countDownSeconds - guiTime;
         //GUI.Label(new Rect(Screen.width / 2, 5, 50, 50), "" + Time.timeSinceLevelLoad);
         double rounded = Mathf.Round(Time.timeSinceLevelLoad * 100) / 100;
         GUI.Label(new Rect(300, 5, 50, 50), "" + rounded);
-    }
+    }*/
 
     void displayPlayerHealth()
     {
         
         GUI.Label(new Rect(5, 50, 100, 20), "Health ", scoreGuiStyle);
         GUI.Label(new Rect(5, 67, 100, 20), UnitPlayer.health.ToString());
-
-        if (UnitPlayer.health < 1 || activeBacteriaCount >30)
-        { //gameover
-            UnitPlayer.health = 0;
-            GUI.Label(new Rect(5, 150, 100, 20), "Gameover! ");
-            Screen.lockCursor = false;
-            Application.LoadLevel(2);
-            UnitPlayer.health = 100;
-        }
+   
     }
 
     void displayInfectionLevel()
@@ -155,19 +192,8 @@ public class GameManager: MonoBehaviour {
     void _DisplayTime()
     {
 
-        
-    float guiTime = Time.time - startTime;
- 
-    remainingSeconds = countDownSeconds - guiTime;
- 
- 
-    if (remainingSeconds == 59) {
-        print ("59 Seconds..");
-    }
-    if (remainingSeconds == 0) {
-        print ("Time is Over");
-
-    } 
+        guiTime = Time.time - startTime;
+        remainingSeconds = countDownSeconds - guiTime;
  
     roundedRestSeconds = Mathf.CeilToInt(remainingSeconds);
     displaySeconds = roundedRestSeconds % 60;
@@ -180,7 +206,7 @@ public class GameManager: MonoBehaviour {
     }
 
     // Activate or Deactivate objects when as needed.
-    void ActivateGameObjects(GameObject spawner, bool activate)
+    void ActivateLevelActivator(GameObject spawner, bool activate)
     {
 
      //int i;

@@ -37,12 +37,14 @@ public class Unit : MonoBehaviour
 	// Update is called once per frame
 	public virtual void Update ()
 	{
-        checkPlayerAction(); 
-        // add gravity to move Vector
-        move += gravity; 
+        
+            checkPlayerAction();
+            // add gravity to move Vector
+            move += gravity;
 
-        // Move function is used instead of SimpleMove to enable our character to jump
-      control.Move(move * walkSpeed * Time.deltaTime); 
+            // Move function is used instead of SimpleMove to enable our character to jump
+            control.Move(move * walkSpeed * Time.deltaTime);
+        
 
 
 

@@ -41,12 +41,15 @@ public class PlayerManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        // if user presses tab, character is changed
-        if (Input.GetKeyDown(KeyCode.Tab) && Time.time > nextcooldown)
+        if (Screen.lockCursor == true)
         {
-            nextcooldown = Time.time + cooldown;
-            switchPlayer();
+            // if user presses tab, character is changed
+            if (Input.GetKeyDown(KeyCode.Tab) && Time.time > nextcooldown)
+            {
+                nextcooldown = Time.time + cooldown;
+                switchPlayer();
 
+            }
         }
 	
 	}

@@ -51,12 +51,19 @@ public class FireBullet : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        Debug.DrawLine(myTransform.position, bulletTarget.position, Color.blue);
+        if (Screen.lockCursor == true)
+        {
 
-        myTransform.LookAt(bulletTarget); // looks at rayTarget object
+            Debug.DrawLine(myTransform.position, bulletTarget.position, Color.blue);
 
-        LoadBullet();
-        Shoot();
+            myTransform.LookAt(bulletTarget); // looks at rayTarget object
+
+            LoadBullet();
+
+
+            Shoot();
+        }
+        
 	
 	}
 

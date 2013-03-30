@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Menu : MonoBehaviour {
 
-   
     //Change color of text on mouse enter
     void OnMouseEnter()
     {
@@ -13,7 +12,7 @@ public class Menu : MonoBehaviour {
     //Revert back to original
     void OnMouseExit()
     {
-        renderer.material.color = Color.white;
+        renderer.material.color = Color.white;  
     }
 
     // menu options
@@ -22,6 +21,10 @@ public class Menu : MonoBehaviour {
         if (transform.tag == "quit")
         {
             Application.Quit();
+        }
+        else if (transform.tag =="nextlevel")
+        {
+            Application.LoadLevel(GameManager.level+1);
         }
         else
         {

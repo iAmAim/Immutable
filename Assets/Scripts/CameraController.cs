@@ -34,25 +34,32 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //check if View is blocked
-        switchView();
-        getCameraPerspective(); // moves to 3rd person or first person view
- 
+
+        if (Screen.lockCursor == true)
+        {
+            //check if View is blocked
+            switchView();
+            getCameraPerspective(); // moves to 3rd person or first person view
+
             // no smoothing if index = 1 (firstperson)
             if (cameraIndex == 1)
             {
-             //snap to position
-             myTransform.position = cameraPerspective[cameraIndex].position;
-             myTransform.rotation = cameraPerspective[cameraIndex].rotation;
+                //snap to position
+                myTransform.position = cameraPerspective[cameraIndex].position;
+                myTransform.rotation = cameraPerspective[cameraIndex].rotation;
             }
             else
             {  //the higher the smoothing is the faster the camera will be in position
-            myTransform.position = Vector3.Lerp(transform.position, cameraPerspective[cameraIndex].position, Time.deltaTime * camerasettings.smoothing);
-            myTransform.rotation = cameraPerspective[cameraIndex].rotation; 
+                myTransform.position = Vector3.Lerp(transform.position, cameraPerspective[cameraIndex].position, Time.deltaTime * camerasettings.smoothing);
+                myTransform.rotation = cameraPerspective[cameraIndex].rotation;
             }
 
-            //this stores rotation independently, tracks rotation frame to frame                                                                                    
+            //this stores rotation independently, tracks rotation frame to frame  
+
+            //if (Screen.lockCursor == true)
+            // {
             cameraRotationX -= Input.GetAxis("Mouse Y");
+
 
             //clamp, set camera pitch min and max values
             cameraRotationX = Mathf.Clamp(cameraRotationX, -camerasettings.minCameraPitch, camerasettings.cameraPitchMax);
@@ -60,12 +67,12 @@ public class CameraController : MonoBehaviour {
 
             //Apply rotation to Camera
             myTransform.Rotate(cameraRotationX, 0f, 0f);
-         
 
+            // }
             //Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
-           // Debug.DrawRay(Camera.main.transform.position, forward, Color.green);
-           //returnCameraRotationX();
-           
+            // Debug.DrawRay(Camera.main.transform.position, forward, Color.green);
+            //returnCameraRotationX();
+        }
         
        
 	}
